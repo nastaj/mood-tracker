@@ -1,212 +1,272 @@
 <?php
-// Connect to database
-include "db_connect.php";
+// db_create.php
+// Seeder for Mood Tracker project
+// WARNING: Drops and recreates tables
 
-// Create database if not exists
+$servername = "jakubproject";
+$username  = "root";
+$password  = "";
+$dbname    = "mood_db";
+$port      = 3306;
+
+$conn = new mysqli($servername, $username, $password, "", $port);
+if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+$conn->set_charset('utf8mb4');
+
+// Create database if missing
 $conn->query("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci");
 $conn->select_db($dbname);
 
-// Drop tables if exist (to avoid FK issues)
-$conn->query("DROP TABLE IF EXISTS `mood_entry_categories`");
-$conn->query("DROP TABLE IF EXISTS `mood_entries`");
-$conn->query("DROP TABLE IF EXISTS `mood_categories`");
-$conn->query("DROP TABLE IF EXISTS `insights`");
-$conn->query("DROP TABLE IF EXISTS `merch_orders`");
-$conn->query("DROP TABLE IF EXISTS `merch`");
-$conn->query("DROP TABLE IF EXISTS `users`");
+// ---------------------------
+// Disable FK checks before dropping
+// ---------------------------
+$conn->query("SET FOREIGN_KEY_CHECKS = 0");
 
+// Drop tables
+$tables = [
+    'mood_entry_categories',
+    'mood_entries',
+    'mood_categories',
+    'insights',
+    'merch_orders',
+    'merch',
+    'merch_categories',
+    'users'
+];
+foreach ($tables as $t) $conn->query("DROP TABLE IF EXISTS `$t`");
+
+// Re-enable FK checks
+$conn->query("SET FOREIGN_KEY_CHECKS = 1");
+
+// ---------------------------
 // Create tables
-$conn->query("CREATE TABLE IF NOT EXISTS `users` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password_hash` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci");
+// ---------------------------
 
-$conn->query("CREATE TABLE IF NOT EXISTS `insights` (
-  `insight_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `insight_text` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`insight_id`),
-  KEY `users_insights_fk` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci");
+// USERS
+$conn->query("
+CREATE TABLE users (
+  user_id INT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
 
-$conn->query("CREATE TABLE IF NOT EXISTS `merch` (
-  `merch_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `price` decimal(8,2) NOT NULL,
-  `stock_quantity` int DEFAULT NULL,
-  `description` text,
-  PRIMARY KEY (`merch_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci");
+// MOOD CATEGORIES
+$conn->query("
+CREATE TABLE mood_categories (
+  category_id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  description TEXT,
+  PRIMARY KEY (category_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
 
-$conn->query("CREATE TABLE IF NOT EXISTS `merch_orders` (
-  `merch_order_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `merch_id` int NOT NULL,
-  `quantity` int DEFAULT NULL,
-  `total_price` decimal(8,2) NOT NULL,
-  `order_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`merch_order_id`),
-  KEY `merch_fk` (`merch_id`),
-  KEY `users_fk` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci");
+// MERCH CATEGORIES
+$conn->query("
+CREATE TABLE merch_categories (
+  category_id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  PRIMARY KEY (category_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
 
-$conn->query("CREATE TABLE IF NOT EXISTS `mood_categories` (
-  `category_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `description` text,
-  PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci");
+// MERCH
+$conn->query("
+CREATE TABLE merch (
+  merch_id INT NOT NULL AUTO_INCREMENT,
+  category_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  price DECIMAL(8,2) NOT NULL,
+  stock_quantity INT DEFAULT NULL,
+  description TEXT,
+  PRIMARY KEY (merch_id),
+  KEY merch_categories_fk (category_id),
+  CONSTRAINT fk_merch_category FOREIGN KEY (category_id) REFERENCES merch_categories(category_id) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
 
-$conn->query("CREATE TABLE IF NOT EXISTS `mood_entries` (
-  `entry_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `intensity` tinyint DEFAULT NULL,
-  `notes` text,
-  `entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`entry_id`),
-  KEY `users_moodentries_fk` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci");
+// MOOD ENTRIES
+$conn->query("
+CREATE TABLE mood_entries (
+  entry_id INT NOT NULL AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  intensity TINYINT DEFAULT NULL,
+  notes TEXT,
+  hours_of_sleep INT DEFAULT NULL,
+  entry_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (entry_id),
+  KEY users_moodentries_fk (user_id),
+  CONSTRAINT fk_mood_entries_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
 
-$conn->query("CREATE TABLE IF NOT EXISTS `mood_entry_categories` (
-  `link_id` int NOT NULL AUTO_INCREMENT,
-  `entry_id` int NOT NULL,
-  `category_id` int NOT NULL,
-  PRIMARY KEY (`link_id`),
-  KEY `mec_mc_fk` (`category_id`),
-  KEY `moodentries_mec_fk` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci");
+// MOOD ENTRY CATEGORIES
+$conn->query("
+CREATE TABLE mood_entry_categories (
+  link_id INT NOT NULL AUTO_INCREMENT,
+  entry_id INT NOT NULL,
+  category_id INT NOT NULL,
+  PRIMARY KEY (link_id),
+  KEY mec_mc_fk (category_id),
+  KEY moodentries_mec_fk (entry_id),
+  CONSTRAINT fk_mec_entry FOREIGN KEY (entry_id) REFERENCES mood_entries(entry_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_mec_category FOREIGN KEY (category_id) REFERENCES mood_categories(category_id) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
 
-// Add foreign key constraints
-$conn->query("ALTER TABLE `insights`
-  ADD CONSTRAINT `users_insights_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE");
+// INSIGHTS
+$conn->query("
+CREATE TABLE insights (
+  insight_id INT NOT NULL AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  insight_text TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (insight_id),
+  KEY users_insights_fk (user_id),
+  CONSTRAINT fk_insights_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
 
-$conn->query("ALTER TABLE `merch_orders`
-  ADD CONSTRAINT `merch_fk` FOREIGN KEY (`merch_id`) REFERENCES `merch` (`merch_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `users_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT");
+// MERCH ORDERS
+$conn->query("
+CREATE TABLE merch_orders (
+  merch_order_id INT NOT NULL AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  merch_id INT NOT NULL,
+  quantity INT DEFAULT 1,
+  total_price DECIMAL(8,2) NOT NULL,
+  order_date TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (merch_order_id),
+  KEY merch_fk (merch_id),
+  KEY users_fk (user_id),
+  CONSTRAINT fk_merchorder_merch FOREIGN KEY (merch_id) REFERENCES merch(merch_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT fk_merchorder_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
 
-$conn->query("ALTER TABLE `mood_entries`
-  ADD CONSTRAINT `users_moodentries_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE");
+// ---------------------------
+// Insert mock data
+// ---------------------------
 
-$conn->query("ALTER TABLE `mood_entry_categories`
-  ADD CONSTRAINT `mec_mc_fk` FOREIGN KEY (`category_id`) REFERENCES `mood_categories` (`category_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `moodentries_mec_fk` FOREIGN KEY (`entry_id`) REFERENCES `mood_entries` (`entry_id`) ON DELETE RESTRICT ON UPDATE RESTRICT");
-
-// Populate tables with mock data using prepared statements
-
-// Users
-$stmt = $conn->prepare("INSERT INTO `users` (`username`, `email`, `password_hash`, `created_at`) VALUES (?, ?, ?, ?)");
+// USERS
+$stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, ?)");
 $stmt->bind_param("ssss", $username, $email, $password_hash, $created_at);
 
 $users = [
-    ['dev', 'g00424689@atu.ie', 'test', '2025-10-03 18:35:21'],
-    ['alice', 'alice@example.com', 'hash1', date('Y-m-d H:i:s')],
-    ['bob', 'bob@example.com', 'hash2', date('Y-m-d H:i:s')]
+    ['jakub','g00424689@atu.ie', password_hash('test', PASSWORD_DEFAULT), date('Y-m-d H:i:s')],
+    ['alice','alice@example.com', password_hash('alice123', PASSWORD_DEFAULT), date('Y-m-d H:i:s')],
+    ['bob','bob@example.com', password_hash('bob123', PASSWORD_DEFAULT), date('Y-m-d H:i:s')],
+    ['charlie','charlie@example.com', password_hash('charlie123', PASSWORD_DEFAULT), date('Y-m-d H:i:s')],
+    ['diana','diana@example.com', password_hash('diana123', PASSWORD_DEFAULT), date('Y-m-d H:i:s')]
 ];
+
 foreach ($users as $u) {
-    [$username, $email, $password_hash, $created_at] = $u;
+    [$username,$email,$password_hash,$created_at] = $u;
     $stmt->execute();
 }
 $stmt->close();
 
-// Merch
-$stmt = $conn->prepare("INSERT INTO `merch` (`name`, `price`, `stock_quantity`, `description`) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("sdis", $name, $price, $stock_quantity, $description);
-
-$merch = [
-    ['Anti-Stress Ball', 10.00, 30, 'Helps you with anxiety during stress moments'],
-    ['Mood Journal', 15.50, 20, 'A journal to track your daily moods'],
-    ['Motivational Mug', 8.99, 50, 'Start your day with a positive quote']
-];
-foreach ($merch as $m) {
-    [$name, $price, $stock_quantity, $description] = $m;
-    $stmt->execute();
-}
-$stmt->close();
-
-// Merch Orders
-$stmt = $conn->prepare("INSERT INTO `merch_orders` (`user_id`, `merch_id`, `quantity`, `total_price`, `order_date`) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("iiids", $user_id, $merch_id, $quantity, $total_price, $order_date);
-
-$orders = [
-    [1, 1, 2, 20.00, '2025-10-03 18:50:28'],
-    [2, 2, 1, 15.50, date('Y-m-d H:i:s')],
-    [3, 3, 3, 26.97, date('Y-m-d H:i:s')]
-];
-foreach ($orders as $o) {
-    [$user_id, $merch_id, $quantity, $total_price, $order_date] = $o;
-    $stmt->execute();
-}
-$stmt->close();
-
-// Mood Categories
-$stmt = $conn->prepare("INSERT INTO `mood_categories` (`name`, `description`) VALUES (?, ?)");
+// MOOD CATEGORIES
+$stmt = $conn->prepare("INSERT INTO mood_categories (name, description) VALUES (?, ?)");
 $stmt->bind_param("ss", $cat_name, $cat_desc);
-
 $categories = [
-    ['Happy', 'Feeling joyful and content'],
-    ['Sad', 'Feeling down or unhappy'],
-    ['Anxious', 'Feeling nervous or worried'],
-    ['Excited', 'Feeling enthusiastic or eager'],
-    ['Calm', 'Feeling relaxed and peaceful']
+    ['Very Happy','Feeling ecstatic, joyful, or delighted'],
+    ['Happy','Feeling good and positive'],
+    ['Neutral','Neither positive nor negative'],
+    ['Sad','Feeling down or upset'],
+    ['Very Sad','Feeling deeply sad or hopeless']
 ];
+
+$moodCategoryIDs = [];
 foreach ($categories as $c) {
-    [$cat_name, $cat_desc] = $c;
+    [$cat_name,$cat_desc] = $c;
     $stmt->execute();
+    $moodCategoryIDs[] = $conn->insert_id; // store actual inserted ID
 }
 $stmt->close();
 
-// Mood Entries
-$stmt = $conn->prepare("INSERT INTO `mood_entries` (`user_id`, `intensity`, `notes`, `entry_date`) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("iiss", $user_id, $intensity, $notes, $entry_date);
+// MERCH CATEGORIES
+$stmt = $conn->prepare("INSERT INTO merch_categories (name) VALUES (?)");
+$stmt->bind_param("s", $cat_name);
+$merch_cats = ['Stress Relief','Journals & Planners','Mugs & Accessories'];
+foreach ($merch_cats as $cat_name) $stmt->execute();
+$stmt->close();
 
-$mood_entries = [
-    [1, 8, 'Had a productive day!', '2025-10-03 09:00:00'],
-    [2, 3, 'Feeling a bit low.', '2025-10-03 10:00:00'],
-    [3, 6, 'Looking forward to the weekend.', '2025-10-03 11:00:00'],
-    [1, 5, 'Some anxiety before meeting.', '2025-10-04 08:30:00']
+// MERCH
+$stmt = $conn->prepare("INSERT INTO merch (category_id, name, price, stock_quantity, description) VALUES (?, ?, ?, ?, ?)");
+$stmt->bind_param("isdss", $cid, $mname, $mprice, $mstock, $mdesc);
+$merch_items = [
+    [1,'Stress Ball',9.99,50,'Squeeze away anxiety.'],
+    [2,'Mood Journal',14.50,30,'Daily prompts to reflect on mood.'],
+    [3,'Motivational Mug',12.00,40,'Start your day with a smile.']
 ];
-foreach ($mood_entries as $me) {
-    [$user_id, $intensity, $notes, $entry_date] = $me;
+foreach ($merch_items as $mi) [$cid,$mname,$mprice,$mstock,$mdesc] = $mi; $stmt->execute();
+$stmt->close();
+
+// MOOD ENTRIES (~20)
+$stmt = $conn->prepare("INSERT INTO mood_entries (user_id, intensity, notes, hours_of_sleep, entry_date) VALUES (?, ?, ?, ?, ?)");
+$stmt->bind_param("iisis", $user_id, $intensity, $notes, $hours_of_sleep, $entry_date);
+$notesArr = [
+    "Had a great day at work, productive and fun.",
+    "Felt a bit tired, but overall okay.",
+    "Stressful day, arguments at work.",
+    "Good run in the morning, stayed active.",
+    "Did not sleep well, felt anxious.",
+    "Enjoyed weekend with friends.",
+    "Mediocre day, nothing special.",
+    "A bit down today, missing home.",
+    "Got great feedback on a project!",
+    "Really rough day emotionally.",
+    "Still feeling low but improving.",
+    "Met up with friends, relaxed evening.",
+    "Had a good productive day at work.",
+    "Average day, watched a movie.",
+    "Didn’t sleep well and it affected my mood.",
+    "Finally feeling optimistic again.",
+    "Relaxing weekend, read a good book.",
+    "Had anxiety before presentation.",
+    "Excited about upcoming trip!",
+    "Feeling neutral overall."
+];
+for ($i=0;$i<20;$i++){
+    $user_id = ($i%5)+1; // distribute among users 1..5
+    $intensity = rand(1,10);
+    $notes = $notesArr[$i];
+    $hours_of_sleep = rand(4,9);
+    $entry_date = date('Y-m-d H:i:s', strtotime("-$i days"));
     $stmt->execute();
 }
 $stmt->close();
 
-// Mood Entry Categories (linking entries to categories)
-$stmt = $conn->prepare("INSERT INTO `mood_entry_categories` (`entry_id`, `category_id`) VALUES (?, ?)");
+// MOOD ENTRY CATEGORIES
+$stmt = $conn->prepare("INSERT INTO mood_entry_categories (entry_id, category_id) VALUES (?, ?)");
 $stmt->bind_param("ii", $entry_id, $category_id);
-
-$entry_categories = [
-    [1, 1], // Happy
-    [2, 2], // Sad
-    [3, 4], // Excited
-    [4, 3]  // Anxious
-];
-foreach ($entry_categories as $ec) {
-    [$entry_id, $category_id] = $ec;
+for ($entry_id=1;$entry_id<=20;$entry_id++){
+    $category_id = $moodCategoryIDs[($entry_id-1)%count($moodCategoryIDs)];
     $stmt->execute();
 }
 $stmt->close();
 
-// Insights
-$stmt = $conn->prepare("INSERT INTO `insights` (`user_id`, `insight_text`, `created_at`) VALUES (?, ?, ?)");
+// INSIGHTS
+$stmt = $conn->prepare("INSERT INTO insights (user_id, insight_text, created_at) VALUES (?, ?, ?)");
 $stmt->bind_param("iss", $user_id, $insight_text, $created_at);
-
 $insights = [
-    [1, 'Regular journaling helps improve mood awareness.', date('Y-m-d H:i:s')],
-    [2, 'Exercise seems to boost my happiness.', date('Y-m-d H:i:s')],
-    [3, 'Socializing reduces my anxiety.', date('Y-m-d H:i:s')]
+    [1,'Regular journaling helps improve mood awareness.'],
+    [2,'Exercise seems to boost my happiness.'],
+    [3,'Socializing reduces my anxiety.'],
+    [4,'Listening to music helps me relax.'],
+    [5,'Meditation improved my concentration.']
 ];
 foreach ($insights as $ins) {
-    [$user_id, $insight_text, $created_at] = $ins;
+    [$user_id,$insight_text] = $ins;
+    $created_at = date('Y-m-d H:i:s');
     $stmt->execute();
 }
 $stmt->close();
 
-echo "Database and tables created, mock data inserted.";
+echo "Database created, tables inserted with mock data successfully.";
 $conn->close();
 ?>
