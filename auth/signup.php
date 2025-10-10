@@ -1,6 +1,8 @@
 <?php
 session_start();
-$error = '';
+header('Content-Type: application/json'); // JSON output
+
+$response = ['success' => false, 'message' => 'Unknown error'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Connect to the database
@@ -13,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validate input fields
     if ($username === '' || $email === '' || $password === '') {
-        $error = 'Please fill in all fields';
+        $response['message'] = 'Please fill in all fields.';
     } else {
         // Prepare a statement to check for duplicate emails
         $chk = $conn->prepare('SELECT user_id FROM users WHERE email = ? LIMIT 1');
@@ -23,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Check if the email is already registered
         if ($r && $r->num_rows > 0) {
-            $error = 'Email already registered.';
+            $response['message'] = 'Email already registered.';
             $chk->close();
             $conn->close();
         } else {
@@ -49,48 +51,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $ins->close();
                 $conn->close();
 
-                 // Redirect to home page
-                header('Location: ../pages/home.php');
+                // Respond with success
+                $response['success'] = true;
+                echo json_encode($response);
                 exit();
             } else {
-                $error = 'Registration failed: ' . $ins->error;
+                $response['message'] = 'Registration failed: ' . $ins->error;
                 $ins->close();
                 $conn->close();
             }
         }
     }
 }
+
+echo json_encode($response);
+exit();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-</head>
-<body>
-    <div class="container">
-        <h2>Sign Up</h2>
-
-         <!-- Display error message if exists -->
-        <?php if ($error): ?>
-            <div class="error"><?php echo htmlspecialchars($error); ?></div>
-        <?php endif; ?>
-
-        <form action="" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-
-            <input type="submit" value="Sign Up">
-        </form>
-        <p>Already have an account? <a href="login.php">Log in here</a>.</p>
-    </div>
-</body>
-</html>
