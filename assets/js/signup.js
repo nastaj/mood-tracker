@@ -13,7 +13,7 @@ async function signupUser() {
     const data = await res.json();
 
     if (data.success) {
-        window.location.href = '../pages/home.php';
+        window.location.href = '../home.php';
     } else {
         errorDiv.textContent = data.message;
     }
