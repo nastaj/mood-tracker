@@ -5,34 +5,40 @@ const moodEmoji = document.querySelector("#mood-emoji");
 const moodCategory = document.querySelector("#mood-category");
 const sleepHours = document.querySelector("#sleep-hours");
 const insight = document.querySelector("#insight");
-// const note = document.querySelector("#note");
+const tags = document.querySelector("#tags");
+const note = document.querySelector("#note");
 
 // Fetch user data and today's mood entry
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         // Fetch user info
-        const userRes = await fetch("./api/get_user.php");
-        const userData = await userRes.json();
+        const res = await fetch("./api/get_user.php");
+        const data = await res.json();
 
-        if (userData.success && userData.user) {
-            const username = userData.user.username;
+        if (data.success && data.user) {
+            const username = data.user.username;
             userGreeting.textContent = `Hello, ${username}!`;
 
             // Fetch latest mood data for this user
-            const moodRes = await fetch(`./api/get_latest_mood.php?user_id=${userData.user.user_id}`);
+            const moodRes = await fetch(`./api/get_latest_mood.php?user_id=${data.user.user_id}`);
             const moodData = await moodRes.json();
 
             // Display mood info (if any)
             if (moodData.success && moodData.data) {
                 const mood = moodData.data;
 
-                moodCategory.textContent = mood.category_name || "No category";
-                sleepHours.textContent = `${mood.hours_of_sleep} hours` || "N/A";
-                insight.textContent = mood.insight || "No insight";
-                // note.textContent = mood.notes || "No notes";
-                moodEmoji.textContent = mood.image || "😐"; // Default emoji if none
+                moodCategory.textContent = mood.category_name;
+                sleepHours.textContent = `${mood.hours_of_sleep} hours`;
+                insight.textContent = mood.insight;
+                note.textContent = mood.notes;
+                moodEmoji.textContent = mood.image;
+                tags.textContent = mood.tags;
             } else {
-                console.warn("No mood entry for today");
+                moodCategory.textContent = "...";
+                sleepHours.textContent = "Log your sleep!";
+                insight.textContent = "Add your insight for today!";
+                moodEmoji.textContent = "🤔";
+                note.textContent = "No notes for today.";
             }
 
         } else {

@@ -22,8 +22,10 @@ if (isset($_SESSION['user_id'])) {
     <form id="loginForm">
         <label>Email:</label>
         <input type="email" name="email" required>
+
         <label>Password:</label>
         <input type="password" name="password" required>
+        
         <button type="button" onclick="loginUser()">Login</button>
     </form>
 
