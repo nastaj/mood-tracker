@@ -34,6 +34,7 @@ LEFT JOIN tags t
 WHERE me.user_id = ? 
   AND DATE(me.entry_date) = CURDATE()
 GROUP BY me.entry_id, mc.name, mc.image, me.hours_of_sleep, me.insight, me.notes
+ORDER BY me.entry_date DESC
 LIMIT 1
 ";
 

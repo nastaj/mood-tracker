@@ -2,5 +2,9 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.1.14",
     "tailwindcss": "^4.1.14"
+  },
+  "scripts": {
+    "tailwind": "npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css --watch",
+    "start": "browser-sync start --proxy \"localhost/JakubProject/mood-tracker\" --files \"**/*.php, **/*.css, **/*.js\""
   }
 }
