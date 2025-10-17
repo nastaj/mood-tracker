@@ -1,3 +1,5 @@
+const moodForm = document.getElementById('moodForm');
+
 const moodBtns = document.querySelectorAll('input[name="mood"]');
 moodBtns.forEach(btn => {
     btn.addEventListener('change', async () => {
@@ -13,6 +15,11 @@ moodBtns.forEach(btn => {
             notesInput.placeholder = "What are you feeling?";
         }
     });
+});
+
+moodForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    logMood();
 });
 
 async function logMood() {

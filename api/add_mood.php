@@ -8,20 +8,17 @@ header('Content-Type: application/json');
 $user_id = $_SESSION['user_id'];
 
 // 2. Validate input
-$mood = $_POST['moodCategory'] ?? null;
+$categoryId = isset($_POST['moodCategory']) ? (int)$_POST['moodCategory'] : null;
 $intensity = isset($_POST['intensity']) ? (int)$_POST['intensity'] : null;
 $hoursSlept = isset($_POST['hoursSlept']) ? (int)$_POST['hoursSlept'] : null;
 $notes = trim($_POST['notes'] ?? '');
 $insight = trim($_POST['insight'] ?? '');
 $tag = $_POST['tag'] ?? ''; // Could be a single ID or comma-separated string
 
-if (!$mood || !$intensity) {
+if (!$categoryId || !$intensity) {
     echo json_encode(["success" => false, "message" => "Missing required fields."]);
     exit;
 }
-
-// Map mood string to category ID
-$categoryId = mapMoodToCategoryId($category);
 
 // 3. Insert into mood_entries
 $sql = "INSERT INTO mood_entries (user_id, intensity, notes, insight, hours_of_sleep)

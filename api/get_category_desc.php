@@ -1,12 +1,8 @@
 <?php
 require_once "../config/db_connect.php";
-include '../includes/helpers.php';
 
 header('Content-Type: application/json');
-$category = $_GET['moodCategory'] ?? null;
-
-// Map mood string to category ID
-$categoryId = mapMoodToCategoryId($category);
+$categoryId = isset($_GET['moodCategory']) ? (int)$_GET['moodCategory'] : null;
 
 $sql = "SELECT description FROM mood_categories WHERE category_id = ?";
 $stmt = $conn->prepare($sql);
