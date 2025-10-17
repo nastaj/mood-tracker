@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             userGreeting.textContent = `Hello, ${username}!`;
 
             // Fetch latest mood data for this user
-            const moodRes = await fetch(`./api/get_latest_mood.php?user_id=${data.user.user_id}`);
+            const moodRes = await fetch(`./api/get_latest_mood.php`);
             const moodData = await moodRes.json();
 
             // Display mood info (if any)

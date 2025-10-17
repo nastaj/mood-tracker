@@ -1,5 +1,49 @@
-const entriesContainer = document.getElementById('entries');
+import loadEntries from './loadEntries.js';
+import deleteEntry from './deleteEntry.js';
 
+const entriesContainer = document.getElementById('entries');
+const deleteModal = document.getElementById('deleteModal');
+let entryToDelete = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Load entries on page load
+    await loadEntries(entriesContainer);
+
+    // Modal buttons
+    const cancelDeleteBtn = document.getElementById('cancelDelete');
+    const confirmDeleteBtn = document.getElementById('confirmDelete');
+
+    // Delete modal event listeners
+    // Cancel button hides the modal
+    cancelDeleteBtn.addEventListener('click', () => {
+        deleteModal.classList.add('hidden');
+        entryToDelete = null;
+    });
+
+    // Confirm delete
+    confirmDeleteBtn.addEventListener('click', async () => {
+        if (entryToDelete) {
+            const entryId = entryToDelete.getAttribute('data-entry-id');
+            const success = await deleteEntry(entryId);
+            if (success) {
+                entryToDelete.remove();
+            } else {
+                alert('Failed to delete the entry. Please try again.');
+            }
+        }
+        deleteModal.classList.add('hidden');
+    });
+});
+
+// Delegate clicks for dynamically loaded entries
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-delete')) {
+        entryToDelete = e.target.closest('div[data-entry-id]');
+        deleteModal.classList.remove('hidden');
+    }
+});
+
+// Dynamically update entries on filter change
 const filterInputs = [
     document.getElementById('mood_filter'),
     document.getElementById('mood_date_from'),
@@ -7,27 +51,6 @@ const filterInputs = [
 ];
 
 filterInputs.forEach(input => {
-    input.addEventListener('change', loadEntries);
+    input.addEventListener('change', () => loadEntries(entriesContainer));
 });
 
-document.addEventListener('DOMContentLoaded', loadEntries);
-
-async function loadEntries() {
-    const moodFilter = document.getElementById('mood_filter').value;
-    const dateFrom = document.getElementById('mood_date_from').value;
-    const dateTo = document.getElementById('mood_date_to').value;
-
-    try {
-        const userRes = await fetch('./api/get_user.php');
-        const userData = await userRes.json();
-        const userId = userData.user.user_id;
-        console.log(userId);
-
-        const entriesRes = await fetch(`./api/get_moods.php?user_id=${userId}&category_id=${moodFilter}&date_from=${dateFrom}&date_to=${dateTo}`);
-        const html = await entriesRes.text();
-
-        entriesContainer.innerHTML = html;
-    } catch (error) {
-        console.error('Error loading entries:', error);
-    }
-}

@@ -1,8 +1,9 @@
 <?php
 require_once '../config/db_connect.php';
+include '../includes/auth.php';
 
 // Get filters from request
-$user_id = $_GET['user_id'] ?? null;
+$user_id = $_SESSION['user_id'];
 $date_from = $_GET['date_from'] ?? null;
 $date_to = $_GET['date_to'] ?? null;
 $category_id = $_GET['category_id'] ?? null;
@@ -76,7 +77,7 @@ $result = $stmt->get_result();
 
 // Generate HTML for each mood entry
 while ($mood = $result->fetch_assoc()) {
-    echo '<div class="bg-gray-200 p-6 rounded-lg shadow-md flex flex-col justify-between gap-6">';
+    echo '<div class="bg-gray-200 p-6 rounded-lg shadow-md flex flex-col justify-between gap-6" data-entry-id="' . $mood['entry_id'] . '">';
     echo '<p class="font-semibold">' . htmlspecialchars($mood['image']) . htmlspecialchars($mood['category_name']) . '</p>';
     echo '<p>"' . htmlspecialchars($mood['notes'] ?? '') . '"</p>';
     echo '<p>' . htmlspecialchars($mood['tags'] ?? '') . '</p>';
@@ -84,8 +85,8 @@ while ($mood = $result->fetch_assoc()) {
     echo '<div class="flex justify-between items-center">';
     echo '<p>' . date('d M Y', strtotime($mood['entry_date'])) . '</p>';
     echo '<div>';
-    echo '<button class="text-blue-500 underline mr-2">Edit</button>';
-    echo '<button class="text-red-500 underline">Delete</button>';
+    echo '<button class="text-blue-500 underline mr-2 btn-edit">Edit</button>';
+    echo '<button class="text-red-500 underline btn-delete">Delete</button>';
     echo '</div></div></div>';
 }
 

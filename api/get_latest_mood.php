@@ -1,15 +1,10 @@
 <?php
 require_once "../config/db_connect.php";
+include '../includes/auth.php';
 header("Content-Type: application/json");
 
-// Get user_id from GET parameters, default to null if not provided
-$user_id = $_GET['user_id'] ?? null;
-
-// Check if user_id is provided
-if (!$user_id) {
-    echo json_encode(["success" => false, "message" => "User not found"]);
-    exit;
-}
+// Get user_id from session
+$user_id = $_SESSION['user_id'];
 
 // SQL query to get today's mood entry with category details
 // Joins mood_entries with mood_categories through mood_entry_categories junction table

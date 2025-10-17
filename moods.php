@@ -10,7 +10,7 @@ include './api/get_categories.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./assets/css/output.css" rel="stylesheet">
     <title>Mood Tracker | Mood Entries</title>
-    <script src="./assets/js/entries.js" defer></script>
+    <script type="module" src="./assets/js/entries.js" defer></script>
 </head>
 <body>
     <?php include './includes/header.php'; ?>
@@ -30,27 +30,27 @@ include './api/get_categories.php';
                 <?php endwhile; ?>
             </select>
             <div class="flex gap-8 basis-1/3 justify-center">
-                <button>Most Recent</button>
+                <button class="hover:cursor-pointer">Most Recent</button>
                 <span>/</span>
-                <button>Oldest</button>
+                <button class="hover:cursor-pointer">Oldest</button>
                 <span>/</span>
-                <button>Highest Mood</button>
+                <button class="hover:cursor-pointer">Highest Mood</button>
             </div>
         </div>
     </main>
 
     <div id="entries" class="max-w-7xl mt-16 mb-24 mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="mood_entries_container">
-        <div class="bg-gray-200 p-6 rounded-lg shadow-md flex flex-col justify-between gap-6">
-            <p class="font-semibold">😀 Very Happy</p>
-            <p>"Had a great day at work and treated myself to a walk."</p>
-            <p>#Relaxed #Productive</p>
-            <p>8/10</p>
-            <div class="flex justify-between items-center">
-                <p>7 Oct 2025</p>
-                <div>
-                    <button class="text-blue-500 underline mr-2">Edit</button>
-                    <button class="text-red-500 underline">Delete</button>
-                </div>
+        
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class=" fixed hidden inset-0 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-4">
+            <h2 class="text-2xl font-bold mb-4">Confirm Deletion</h2>
+            <p class="mb-6">Are you sure you want to delete this mood entry? This action cannot be undone.</p>
+            <div class="flex gap-4 justify-end">
+                <button id="cancelDelete" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Cancel</button>
+                <button id="confirmDelete" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded">Delete</button>
             </div>
         </div>
     </div>
