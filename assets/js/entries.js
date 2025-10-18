@@ -3,7 +3,9 @@ import deleteEntry from './deleteEntry.js';
 
 const entriesContainer = document.getElementById('entries');
 const deleteModal = document.getElementById('deleteModal');
+const editModal = document.getElementById('editModal');
 let entryToDelete = null;
+let entryToEdit = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Load entries on page load
@@ -12,6 +14,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Modal buttons
     const cancelDeleteBtn = document.getElementById('cancelDelete');
     const confirmDeleteBtn = document.getElementById('confirmDelete');
+    const cancelEditBtn = document.getElementById('cancelEdit');
+    const confirmEditBtn = document.getElementById('confirmEdit');
 
     // Delete modal event listeners
     // Cancel button hides the modal
@@ -33,6 +37,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         deleteModal.classList.add('hidden');
     });
+
+    // Edit modal event listeners
+    // Cancel button hides the modal
+    cancelEditBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        editModal.classList.add('hidden');
+        entryToEdit = null;
+    });
+
+    // Confirm edit
+    confirmEditBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (entryToEdit) {
+            const entryId = entryToEdit.getAttribute('data-entry-id');
+            // TODO: Implement edit functionality here
+        }
+    });
 });
 
 // Delegate clicks for dynamically loaded entries
@@ -40,6 +61,14 @@ document.addEventListener('click', (e) => {
     if (e.target.classList.contains('btn-delete')) {
         entryToDelete = e.target.closest('div[data-entry-id]');
         deleteModal.classList.remove('hidden');
+    }
+});
+
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-edit')) {
+        console.log('Edit button clicked');
+        entryToEdit = e.target.closest('div[data-entry-id]');
+        editModal.classList.remove('hidden');
     }
 });
 

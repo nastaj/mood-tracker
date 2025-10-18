@@ -85,8 +85,8 @@ while ($mood = $result->fetch_assoc()) {
     echo '<div class="flex justify-between items-center">';
     echo '<p>' . date('d M Y', strtotime($mood['entry_date'])) . '</p>';
     echo '<div>';
-    echo '<button class="text-blue-500 underline mr-2 btn-edit">Edit</button>';
-    echo '<button class="text-red-500 underline btn-delete">Delete</button>';
+    echo '<button class="text-blue-500 underline mr-2 btn-edit hover:cursor-pointer">Edit</button>';
+    echo '<button class="text-red-500 underline btn-delete hover:cursor-pointer">Delete</button>';
     echo '</div></div></div>';
 }
 

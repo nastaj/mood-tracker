@@ -9,9 +9,6 @@
       "Courier New", monospace;
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-600: oklch(57.7% 0.245 27.325);
-    --color-blue-100: oklch(93.2% 0.032 255.585);
-    --color-blue-200: oklch(88.2% 0.059 254.128);
-    --color-blue-300: oklch(80.9% 0.105 251.813);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-gray-100: oklch(96.7% 0.003 264.542);
@@ -26,7 +23,6 @@
     --spacing: 0.25rem;
     --container-md: 28rem;
     --container-5xl: 64rem;
-    --container-6xl: 72rem;
     --container-7xl: 80rem;
     --text-sm: 0.875rem;
     --text-sm--line-height: calc(1.25 / 0.875);
@@ -368,6 +364,9 @@
   .self-center {
     align-self: center;
   }
+  .overflow-auto {
+    overflow: auto;
+  }
   .rounded {
     border-radius: 0.25rem;
   }
@@ -381,15 +380,25 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
+  .border-2 {
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+  }
   .border-b-2 {
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 2px;
   }
+  .border-gray-100 {
+    border-color: var(--color-gray-100);
+  }
+  .border-gray-200 {
+    border-color: var(--color-gray-200);
+  }
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
-  .bg-black {
-    background-color: var(--color-black);
+  .bg-blue-500 {
+    background-color: var(--color-blue-500);
   }
   .bg-blue-600 {
     background-color: var(--color-blue-600);
@@ -405,6 +414,9 @@
   }
   .bg-white {
     background-color: var(--color-white);
+  }
+  .p-2 {
+    padding: calc(var(--spacing) * 2);
   }
   .p-4 {
     padding: calc(var(--spacing) * 4);
@@ -501,14 +513,9 @@
   .underline {
     text-decoration-line: underline;
   }
-  .opacity-5 {
-    opacity: 5%;
-  }
-  .opacity-10 {
-    opacity: 10%;
-  }
-  .opacity-50 {
-    opacity: 50%;
+  .shadow-2xl {
+    --tw-shadow: 0 25px 50px -12px var(--tw-shadow-color, rgb(0 0 0 / 0.25));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .shadow-md {
     --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
@@ -529,6 +536,13 @@
     &:hover {
       @media (hover: hover) {
         cursor: pointer;
+      }
+    }
+  }
+  .hover\:bg-blue-600 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-blue-600);
       }
     }
   }

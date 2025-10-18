@@ -24,18 +24,18 @@ include './api/get_categories.php';
                 <h1 class="text-4xl font-bold mb-4">Log Your Mood</h1>
                 <form id="moodCategoryForm" class="flex flex-col gap-4">
                     <label for="mood" class="text-lg font-semibold">How was your mood today?</label>
-                    <?php
-                    while ($row = mysqli_fetch_assoc($categories)) {
-                            $id = htmlspecialchars($row['category_id']);
-                            $name = htmlspecialchars($row['name']);
+                    <?php foreach ($categories as $category): ?>
+                        <?php
+                            $id = htmlspecialchars($category['category_id']);
+                            $name = htmlspecialchars($category['name']);
 
                             echo '
                             <div>
                                 <input type="radio" id="mood-' . $id . '" name="mood" value="' . $id . '" class="mr-2">
                                 <label for="mood-' . $id . '" class="mr-4">' . ucfirst($name) . '</label>
                             </div>';
-                    }
-                    ?>
+                        ?>
+                    <?php endforeach; ?>
                 </form>
             </div>
 
