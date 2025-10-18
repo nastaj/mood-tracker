@@ -53,6 +53,7 @@ SELECT
     mc.name AS category_name,
     mc.image,
     me.hours_of_sleep,
+    me.intensity,
     me.insight,
     me.notes,
     GROUP_CONCAT(t.name SEPARATOR ', ') AS tags
@@ -66,7 +67,7 @@ LEFT JOIN mood_entry_tags met
 LEFT JOIN tags t 
     ON met.tag_id = t.tag_id
 WHERE $where_clause
-GROUP BY me.entry_id, me.entry_date, mc.name, mc.image, me.hours_of_sleep, me.insight, me.notes
+GROUP BY me.entry_id, me.entry_date, mc.name, mc.image, me.hours_of_sleep, me.insight, me.notes, me.intensity
 ORDER BY $order_by
 ";
 
@@ -78,10 +79,11 @@ $result = $stmt->get_result();
 // Generate HTML for each mood entry
 while ($mood = $result->fetch_assoc()) {
     echo '<div class="bg-gray-200 p-6 rounded-lg shadow-md flex flex-col justify-between gap-6" data-entry-id="' . $mood['entry_id'] . '">';
-    echo '<p class="font-semibold">' . htmlspecialchars($mood['image']) . htmlspecialchars($mood['category_name']) . '</p>';
-    echo '<p>"' . htmlspecialchars($mood['notes'] ?? '') . '"</p>';
-    echo '<p>' . htmlspecialchars($mood['tags'] ?? '') . '</p>';
-    echo '<p>' . htmlspecialchars($mood['hours_of_sleep'] ?? '') . '/10</p>';
+    echo '<p class="font-semibold mood-category">' . htmlspecialchars($mood['image']) . htmlspecialchars($mood['category_name']) . '</p>';
+    echo '<p class="mood-notes">' . htmlspecialchars($mood['notes'] ?? '') . '</p>';
+    echo '<p class="mood-tags">' . htmlspecialchars($mood['tags'] ?? '') . '</p>';
+    echo '<p class="mood-hours-slept">' . htmlspecialchars($mood['hours_of_sleep'] ?? '') . 'h of sleep</p>';
+    echo '<p class="mood-intensity">' . htmlspecialchars($mood['intensity'] ?? '') . '/10</p>';
     echo '<div class="flex justify-between items-center">';
     echo '<p>' . date('d M Y', strtotime($mood['entry_date'])) . '</p>';
     echo '<div>';

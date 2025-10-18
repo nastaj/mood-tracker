@@ -1,7 +1,6 @@
 <?php
 require_once "../config/db_connect.php";
 include '../includes/auth.php';
-include '../includes/helpers.php';
 
 header('Content-Type: application/json');
 
