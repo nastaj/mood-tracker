@@ -42,7 +42,7 @@ $where_clause = implode(" AND ", $where);
 // Build ORDER BY clause
 $order_by = match($sort_by) {
     'oldest' => 'me.entry_date ASC',
-    'highest' => 'me.insight DESC, me.entry_date DESC',
+    'intensity' => 'me.intensity DESC, me.entry_date DESC',
     default => 'me.entry_date DESC' // recent
 };
 

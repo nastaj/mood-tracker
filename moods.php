@@ -31,11 +31,11 @@ include './api/get_tags.php';
                 <?php endforeach; ?>
             </select>
             <div class="flex gap-8 basis-1/3 justify-center">
-                <button class="hover:cursor-pointer">Most Recent</button>
+                <button value="recent" class="hover:cursor-pointer btn-sort">Most Recent</button>
                 <span>/</span>
-                <button class="hover:cursor-pointer">Oldest</button>
+                <button value="oldest" class="hover:cursor-pointer btn-sort">Oldest</button>
                 <span>/</span>
-                <button class="hover:cursor-pointer">Highest Mood</button>
+                <button value="intensity" class="hover:cursor-pointer btn-sort">Intensity</button>
             </div>
         </div>
     </main>

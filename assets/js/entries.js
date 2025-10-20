@@ -6,8 +6,10 @@ const editForm = document.getElementById('editMoodForm');
 const entriesContainer = document.getElementById('entries');
 const deleteModal = document.getElementById('deleteModal');
 const editModal = document.getElementById('editModal');
+const btnSorts = document.querySelectorAll('.btn-sort');
 let entryToDelete = null;
 let entryToEdit = null;
+let sortBy = 'recent';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Load entries on page load
@@ -17,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const cancelDeleteBtn = document.getElementById('cancelDelete');
     const confirmDeleteBtn = document.getElementById('confirmDelete');
     const cancelEditBtn = document.getElementById('cancelEdit');
-    const confirmEditBtn = document.getElementById('confirmEdit');
 
     // Delete modal event listeners
     // Cancel button hides the modal
@@ -73,17 +74,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
                 if (updatedMood.success) {
-                    // Update the entry in the UI
-                    const entryDiv = entryToEdit;
-                    entryDiv.querySelector('.mood-category').textContent = `${category.data.image} ${category.data.name}`;
-                    entryDiv.querySelector('.mood-notes').textContent = notes;
-                    entryDiv.querySelector('.mood-intensity').textContent = `${intensity}/10`;
-                    entryDiv.querySelector('.mood-hours-slept').textContent = `${hours_slept}h of sleep`;
-                    // entryDiv.querySelector('.mood-insight').textContent = insight;
-                    entryDiv.querySelector('.mood-tags').textContent = tag;
-
                     // Close the modal
                     editModal.classList.add('hidden');
+
+                    // Reload entries to reflect changes
+                    await loadEntries(entriesContainer, sortBy);
                 }
             } catch (error) {
                 console.error('Error editing entry:', error);
@@ -120,3 +115,9 @@ filterInputs.forEach(input => {
     input.addEventListener('change', () => loadEntries(entriesContainer));
 });
 
+btnSorts.forEach(button => {
+    button.addEventListener('click', () => {
+        sortBy = button.value;
+        loadEntries(entriesContainer, sortBy);
+    });
+});
