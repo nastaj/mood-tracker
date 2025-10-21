@@ -80,10 +80,11 @@ $result = $stmt->get_result();
 while ($mood = $result->fetch_assoc()) {
     echo '<div class="bg-gray-200 p-6 rounded-lg shadow-md flex flex-col justify-between gap-6" data-entry-id="' . $mood['entry_id'] . '">';
     echo '<p class="font-semibold mood-category">' . htmlspecialchars($mood['image']) . htmlspecialchars($mood['category_name']) . '</p>';
-    echo '<p class="mood-notes">' . htmlspecialchars($mood['notes'] ?? '') . '</p>';
-    echo '<p class="mood-tags">' . htmlspecialchars($mood['tags'] ?? '') . '</p>';
-    echo '<p class="mood-hours-slept">' . htmlspecialchars($mood['hours_of_sleep'] ?? '') . 'h of sleep</p>';
-    echo '<p class="mood-intensity">' . htmlspecialchars($mood['intensity'] ?? '') . '/10</p>';
+    echo '<p class="mood-notes"><span class="font-semibold">Notes: </span>' . htmlspecialchars($mood['notes'] ?? '') . '</p>';
+    echo '<p class="mood-insight"><span class="font-semibold">Insight: </span>' . htmlspecialchars($mood['insight'] ?? 'No insight for this day.') . '</p>';
+    echo '<p class="mood-hours-slept"><span class="font-semibold">Sleep: </span>' . htmlspecialchars($mood['hours_of_sleep'] ?? '') . 'h</p>';
+    echo '<p class="mood-intensity"><span class="font-semibold">Intensity: </span>' . htmlspecialchars($mood['intensity'] ?? '') . '/10</p>';
+    echo '<p class="mood-tags">#' . htmlspecialchars($mood['tags'] ?? '') . '</p>';
     echo '<div class="flex justify-between items-center">';
     echo '<p>' . date('d M Y', strtotime($mood['entry_date'])) . '</p>';
     echo '<div>';

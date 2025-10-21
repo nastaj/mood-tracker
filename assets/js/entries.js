@@ -1,12 +1,14 @@
 import loadEntries from './loadEntries.js';
 import deleteEntry from './deleteEntry.js';
 import editEntry from './editEntry.js';
+import getMood from './getMood.js';
 
 const editForm = document.getElementById('editMoodForm');
 const entriesContainer = document.getElementById('entries');
 const deleteModal = document.getElementById('deleteModal');
 const editModal = document.getElementById('editModal');
 const btnSorts = document.querySelectorAll('.btn-sort');
+
 let entryToDelete = null;
 let entryToEdit = null;
 let sortBy = 'recent';
@@ -32,6 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (entryToDelete) {
             const entryId = entryToDelete.getAttribute('data-entry-id');
             const success = await deleteEntry(entryId);
+
             if (success) {
                 entryToDelete.remove();
             } else {
@@ -96,11 +99,26 @@ document.addEventListener('click', (e) => {
     }
 });
 
-document.addEventListener('click', (e) => {
+document.addEventListener('click', async (e) => {
     if (e.target.classList.contains('btn-edit')) {
-        console.log('Edit button clicked');
         entryToEdit = e.target.closest('div[data-entry-id]');
-        editModal.classList.remove('hidden');
+        const entryId = entryToEdit.getAttribute('data-entry-id');
+
+        // Pre-fill the edit form with existing data
+        try {
+            const moodData = await getMood(entryId);
+            document.getElementById('editCategory').value = moodData.category_id;
+            document.getElementById('editNotes').value = moodData.notes;
+            document.getElementById('editIntensity').value = moodData.intensity;
+            document.getElementById('editSleepHours').value = moodData.hours_of_sleep;
+            document.getElementById('editInsight').value = moodData.insight;
+            document.getElementById('editTag').value = moodData.tags;
+
+            editModal.classList.remove('hidden');
+        } catch (error) {
+            console.error('Error fetching mood for edit:', error);
+            alert('Failed to load entry data for editing. Please try again.');
+        }
     }
 });
 
