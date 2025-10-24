@@ -1,5 +1,6 @@
 <?php 
 include './includes/auth.php';
+include './api/merch/get_categories.php';
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +10,7 @@ include './includes/auth.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./assets/css/output.css" rel="stylesheet">
     <title>Mood Tracker | Merch</title>
-    <script type="module" src="./assets/js/merch.js" defer></script>
+    <script type="module" src="./assets/js/merch/merch.js" defer></script>
 </head>
 <body>
     <?php include './includes/header.php'; ?>
@@ -28,17 +29,15 @@ include './includes/auth.php';
                 <div class="flex flex-col">
                     <label for="category" class="font-semibold mb-3 text-xl">Category</label>
                     <div class="mb-2">
-                        <input type="checkbox" id="category-apparel" name="category" value="apparel">
-                        <label for="category-apparel">Apparel</label>
+                        <input type="radio" id="category-all" name="category" value="" checked>
+                        <label for="category-all">All</label>
                     </div>
-                    <div class="mb-2">
-                        <input type="checkbox" id="category-accessories" name="category" value="accessories">
-                        <label for="category-accessories">Accessories</label>
-                    </div>
-                    <div class="mb-2">
-                        <input type="checkbox" id="category-home-decor" name="category" value="home-decor">
-                        <label for="category-home-decor">Home Decor</label>
-                    </div>
+                    <?php foreach ($categories as $category): ?>
+                        <div class="mb-2">
+                            <input type="radio" id="category-<?php echo $category['category_id']; ?>" name="category" value="<?php echo $category['category_id']; ?>">
+                            <label for="category-<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></label>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </aside>
@@ -53,73 +52,8 @@ include './includes/auth.php';
                 </div>
             </div>
 
-            <section id="merch-items" class="space-y-8">
-                <!-- Row 1 -->
-                 <section class="grid grid-cols-4 gap-8">
-                       <article class="border border-gray-300 rounded p-4">
-                         <img src="./assets/img/placeholder.png" alt="Merch Item 1" class="w-full h-auto mb-4">
-                         <a class="mb-3 font-semibold">Item Name</a>
-                         <div class="flex justify-between mb-4">
-                             <p class="text-gray-700 mb-2 font-semibold">€19.99</p>
-                             <p>Available</p>
-                            </div>
-                            <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add to Cart</button>
-                        </article>
-                        
-                        <article class="border border-gray-300 rounded p-4">
-                            <img src="./assets/img/placeholder.png" alt="Merch Item 1" class="w-full h-auto mb-4">
-                            <h5 class="mb-3">Item Name</h5>
-                            <div class="flex justify-between mb-4">
-                                <p class="text-gray-700 mb-2 font-semibold">€19.99</p>
-                                <p>Available</p>
-                            </div>
-                            <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add to Cart</button>
-                        </article>
-                        
-                        <article class="border border-gray-300 rounded p-4">
-                            <img src="./assets/img/placeholder.png" alt="Merch Item 1" class="w-full h-auto mb-4">
-                            <h5 class="mb-3">Item Name</h5>
-                            <div class="flex justify-between mb-4">
-                                <p class="text-gray-700 mb-2 font-semibold">€19.99</p>
-                                <p>Available</p>
-                            </div>
-                            <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add to Cart</button>
-                        </article>
-                        
-                        <article class="border border-gray-300 rounded p-4">
-                            <img src="./assets/img/placeholder.png" alt="Merch Item 1" class="w-full h-auto mb-4">
-                            <h5 class="mb-3">Item Name</h5>
-                            <div class="flex justify-between mb-4">
-                                <p class="text-gray-700 mb-2 font-semibold">€19.99</p>
-                                <p>Available</p>
-                            </div>
-                            <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add to Cart</button>
-                        </article>
-                    </section>
-                        
-                    <!-- Row 2 -->
-                    <section class="grid grid-cols-2 gap-8">
-                        <article class="border border-gray-300 rounded p-4 ">
-                            <img src="./assets/img/placeholder.png" alt="Merch Item 1" class="w-full h-56 object-fill">
-                            <h5 class="mb-3">Item Name</h5>
-                            <div class="flex justify-between mb-4">
-                                <p class="text-gray-700 mb-2 font-semibold">€19.99</p>
-                                <p>Available</p>
-                            </div>
-                            <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add to Cart</button>
-                        </article>
-                        
-                        <article class="border border-gray-300 rounded p-4">
-                            <img src="./assets/img/placeholder.png" alt="Merch Item 1" class="w-full h-56 object-fill mb-4">
-                            <h5 class="mb-3">Item Name</h5>
-                            <div class="flex justify-between mb-4">
-                                <p class="text-gray-700 mb-2 font-semibold">€19.99</p>
-                                <p>Available</p>
-                            </div>
-                            <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add to Cart</button>
-                        </article>
-                    </section>
-                </section>
+            <section id="merch-items" class="space-y-8 grid-cols-4 grid gap-8">
+                <!-- Merch items will be dynamically loaded here -->
             </section>
             </main>
         </body>
