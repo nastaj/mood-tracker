@@ -93,8 +93,8 @@ include './api/get_tags.php';
                 </select>
 
                 <div class="flex justify-between">
-                        <button id="cancelEdit" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 hover:cursor-pointer rounded">Cancel</button>
-                        <button id="confirmEdit" type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 hover:cursor-pointer text-white rounded">Save Changes</button>
+                    <button id="cancelEdit" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 hover:cursor-pointer rounded">Cancel</button>
+                    <button id="confirmEdit" type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 hover:cursor-pointer text-white rounded">Save Changes</button>
                 </div>
             </form>
         </div>

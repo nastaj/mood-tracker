@@ -2,6 +2,9 @@ import loadMerch from "./loadMerch";
 
 const merchContainer = document.getElementById("merch-items");
 const categories = document.querySelectorAll('input[name="category"]');
+const btnSorts = document.querySelectorAll('.btn-sort');
+
+let sortBy = 'most-recent';
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Load merch items on page load
@@ -24,5 +27,13 @@ const filterInputs = [
 filterInputs.forEach(input => {
     input.addEventListener("input", async () => {
         await loadMerch(merchContainer);
+    });
+});
+
+// Sort entries on sort button click
+btnSorts.forEach(btn => {
+    btn.addEventListener('click', async () => {
+        sortBy = btn.value;
+        await loadMerch(merchContainer, sortBy);
     });
 });
