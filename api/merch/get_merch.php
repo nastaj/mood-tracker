@@ -90,7 +90,7 @@ while ($item = $result->fetch_assoc()) {
     echo '<button class="absolute top-2 right-2 text-gray-400 hover:text-red-500 hover:cursor-pointer transition-all">
           <i class="fa-regular fa-heart"></i>
           </button>';
-    echo '<img src="' . htmlspecialchars('./assets/img/placeholder.png') . '" alt="' . htmlspecialchars($item['name']) . '" class="w-full h-48 object-cover rounded mb-4">';
+    echo '<img src="' . htmlspecialchars($item['image_url']) . '" alt="' . htmlspecialchars($item['name']) . '" class="w-full h-48 object-cover rounded mb-4" onerror="this.src=\'./assets/img/placeholder.png\';">';
     echo '<a class="block font-semibold mb-2 hover:text-blue-600 cursor-pointer transition-all">' . htmlspecialchars($item['name']) . '</a>';
 
     // Star rating display
