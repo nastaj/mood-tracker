@@ -5,6 +5,6 @@
   },
   "scripts": {
     "tailwind": "npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css --watch",
-    "start": "browser-sync start --proxy \"localhost/JakubProject/mood-tracker\" --files \"**/*.php, **/*.css, **/*.js\""
+    "start": "browser-sync start --proxy \"localhost/JakubProject/mood-tracker\" --files \"**/*.php, **/*.css, **/*.js\" --no-notify"
   }
 }

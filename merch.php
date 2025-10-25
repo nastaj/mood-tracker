@@ -10,7 +10,6 @@ include './api/merch/get_categories.php';
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./assets/css/output.css" rel="stylesheet">
         <title>Mood Tracker | Merch</title>
-        <script src="https://kit.fontawesome.com/bf8d4f7ae9.js" crossorigin="anonymous"></script>
         <script type="module" src="./assets/js/merch/merch.js" defer></script>
     </head>
     <body>

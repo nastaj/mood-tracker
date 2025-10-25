@@ -1,6 +1,8 @@
 <?php
 echo '
+    <script src="https://kit.fontawesome.com/bf8d4f7ae9.js" crossorigin="anonymous"></script>
     <script src="./assets/js/nav.js" defer></script>
+    <script src="./assets/js/cart/cart.js" defer></script>
     <script src="./assets/js/logout.js" defer></script>
     <header class="p-6 border-b-2 border-gray-300">
         <nav class="flex justify-between items-center mx-16">
@@ -17,11 +19,10 @@ echo '
                 <a href="log_mood.php" class="flex gap-2 items-center hover:underline">
                     <img src="./assets/img/add-log.png" alt="Add log icon" width="32" height="32">
                     <span>Log Mood</span>
-                </a>
-                <button>
-                    <img src="./assets/img/shopping-cart.png" alt="Shopping cart icon" width="32" height="32">
-                </button>
-
+                </a>';
+                
+                include 'cart.php';
+echo '
                 <!-- Profile/Modal -->
                 <div class="relative">
                     <button id="profileBtn" class="hover:cursor-pointer hover:bg-black/20 rounded-full p-1" onclick="toggleUserModal()">
