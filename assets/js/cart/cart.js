@@ -1,13 +1,14 @@
 const cartItems = document.getElementById("cart-items");
 
-function updateCartCount(action) {
+function updateCartCount(action, quantity = 1) {
     const cartCountEl = document.getElementById("cart-count");
-    cartCountEl.textContent = parseInt(cartCountEl.textContent) + (action === 'add' ? 1 : -1);
+    cartCountEl.textContent = parseInt(cartCountEl.textContent) + (action === 'add' ? quantity : -quantity);
 }
 
-async function addToCart(merchId) {
+async function addToCart(merchId, quantity = 1) {
     const formData = new FormData();
     formData.append('merch_id', merchId);
+    formData.append('quantity', quantity);
 
     try {
         // Send POST request to add item to cart
@@ -16,7 +17,7 @@ async function addToCart(merchId) {
             body: formData
         });
 
-        updateCartCount('add');
+        updateCartCount('add', quantity);
 
         // Update cart modal content
         const res = await fetch('./api/cart/get_cart_items.php');

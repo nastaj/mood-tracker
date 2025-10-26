@@ -91,7 +91,7 @@ while ($item = $result->fetch_assoc()) {
           <i class="fa-regular fa-heart"></i>
           </button>';
     echo '<img src="' . htmlspecialchars($item['image_url']) . '" alt="' . htmlspecialchars($item['name']) . '" class="w-full h-48 object-cover rounded mb-4" onerror="this.src=\'./assets/img/placeholder.png\';">';
-    echo '<a class="block font-semibold mb-2 hover:text-blue-600 cursor-pointer transition-all">' . htmlspecialchars($item['name']) . '</a>';
+    echo '<a href="./product.php?id=' . $item['merch_id'] . '" class="block font-semibold mb-2 hover:text-blue-600 cursor-pointer transition-all">' . htmlspecialchars($item['name']) . '</a>';
 
     // Star rating display
     echo '<div class="flex items-center mb-2">';

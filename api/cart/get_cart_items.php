@@ -19,7 +19,7 @@ if(!empty($cart)) {
         echo '<div class="cart-item flex items-center gap-3 mb-5">';
         echo '<img src="' . htmlspecialchars($item['image_url']) . '" class="w-16 h-16 object-cover rounded">';
         echo '<div class="mr-auto">';
-        echo '<p class="font-semibold">' . htmlspecialchars($item['name']) . '</p>';
+        echo '<a href="./product.php?id=' . $item['merch_id'] . '" class="font-semibold">' . htmlspecialchars($item['name']) . '</a>';
         echo '<p class="quantity">€' . number_format($item['price'], 2) . ' × ' . $item['quantity'] . '</p>';
         echo '</div>';
         echo '<button class="text-red-500 underline remove-item" onclick="removeFromCart(' . $item['merch_id'] . ')">';
