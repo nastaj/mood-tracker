@@ -39,7 +39,7 @@ while ($item = $result->fetch_assoc()) {
     echo '      <img src="' . htmlspecialchars($item['image_url']) . '" alt="' . htmlspecialchars($item['name']) . '" class="w-1/5 md:rounded-lg lg:cursor-pointer">';
 
     echo '      <!-- Product Details -->';
-    echo '      <article class="p-6 mb-2 basis-2/5 lg:mb-0 xl:basis-2/6">';
+    echo '      <article class="p-6 mb-2 basis-2/5 lg:mb-0 xl:basis-2/6 ">';
     echo '          <span class="inline-block uppercase font-bold text-sm text-primary-orange tracking-wide mb-4">';
     echo '              Moodies';
     echo '          </span>';

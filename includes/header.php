@@ -31,7 +31,9 @@ echo '
 
                     <div id="userModal" class="hidden absolute right-0 top-12 z-50">
                         <div class="bg-white p-8 rounded-lg shadow-2xl w-56 flex flex-col items-center">
-                            <a class="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-4 py-2 mb-3 w-full text-center text-lg" href="profile.php">View Profile</a>
+                            <a class="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-4 py-2 mb-3 w-full text-center text-lg" href="profile.php">Profile</a>
+                            <a class="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-4 py-2 mb-3 w-full text-center text-lg" href="wishlist.php">Wishlist</a>
+                            <a class="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-4 py-2 mb-3 w-full text-center text-lg" href="orders.php">Orders</a>
                             <button id="logoutBtn" class="bg-red-500 hover:bg-red-700 cursor-pointer text-white rounded px-4 py-2 w-full mb-3 text-lg" onclick="logout()">Logout</button>  
                             <button id="closeUserModal" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 cursor-pointer rounded w-full text-lg" onclick="toggleUserModal()">Close</button>
                         </div>

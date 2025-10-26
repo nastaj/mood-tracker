@@ -9,6 +9,7 @@ include './api/merch/get_categories.php';
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./assets/css/output.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
         <title>Mood Tracker | Merch</title>
         <script type="module" src="./assets/js/merch/merch.js" defer></script>
     </head>
@@ -60,5 +61,7 @@ include './api/merch/get_categories.php';
                 </section>
             </section>
         </main>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     </body>
 </html>

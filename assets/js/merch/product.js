@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     addToCartBtn.addEventListener('click', () => {
         const merchId = addToCartBtn.dataset.merchId;
         const quantity = parseInt(quantitySpan.textContent);
-        addToCart(merchId, quantity);
+
+        if (quantity > 0) addToCart(merchId, quantity);
     });
 });

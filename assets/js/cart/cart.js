@@ -19,12 +19,30 @@ async function addToCart(merchId, quantity = 1) {
 
         updateCartCount('add', quantity);
 
+        Toastify({
+            text: `👍 Added ${quantity} item${quantity > 1 ? 's' : ''} to cart`,
+            duration: 2000,
+            gravity: "top",
+            position: "center",
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93e)",
+            },
+        }).showToast();
+
         // Update cart modal content
         const res = await fetch('./api/cart/get_cart_items.php');
         const html = await res.text();
         cartItems.innerHTML = html;
     } catch (error) {
-        console.error('Error adding item to cart:', error);
+        Toastify({
+            text: `❌ Failed to add item to cart: ${error.message}`,
+            duration: 2000,
+            gravity: "top",
+            position: "center",
+            style: {
+                background: "linear-gradient(to right, #ff5f5f, #ffcccb)",
+            },
+        }).showToast();
     }
 }
 
@@ -46,6 +64,14 @@ async function removeFromCart(merchId) {
         const html = await res.text();
         cartItems.innerHTML = html;
     } catch (error) {
-        console.error('Error removing item from cart:', error);
+        Toastify({
+            text: `❌ Failed to remove item from cart: ${error.message}`,
+            duration: 2000,
+            gravity: "top",
+            position: "center",
+            style: {
+                background: "linear-gradient(to right, #ff5f5f, #ffcccb)",
+            },
+        }).showToast();
     }
 }
