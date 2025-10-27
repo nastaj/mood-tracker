@@ -76,9 +76,22 @@ if ($params) {
 $stmt->execute();
 $result = $stmt->get_result();
 
+// Get wishlist from cookie
+$wishlist = [];
+if (isset($_COOKIE['wishlist'])) {
+    $wishlist = json_decode($_COOKIE['wishlist'], true);
+    if (!is_array($wishlist)) $wishlist = [];
+}
+
 // Generate HTML for each merch item
 while ($item = $result->fetch_assoc()) {
     $availability = ($item['stock_quantity'] > 0) ? 'In Stock' : 'Out of Stock';
+
+    // Check if item is in wishlist
+    $isInWishlist = in_array($item['merch_id'], $wishlist);
+    $wishlistClasses = $isInWishlist 
+        ? 'fa-solid fa-heart text-red-500'  // filled heart
+        : 'fa-regular fa-heart text-gray-400'; // outline heart
 
     // Calculate number of full stars, half star, and empty stars
     $avg_rating = floatval($item['avg_rating']);
@@ -87,8 +100,8 @@ while ($item = $result->fetch_assoc()) {
     $empty_stars = 5 - $full_stars - $half_star;
 
     echo '<article class="relative border border-gray-300 rounded p-4">';
-    echo '<button class="absolute top-2 right-2 text-gray-400 hover:text-red-500 hover:cursor-pointer transition-all">
-          <i class="fa-regular fa-heart"></i>
+    echo '<button class="wishlist-btn absolute top-2 right-2 text-gray-400 hover:text-red-500 hover:cursor-pointer transition-all" data-merch-id="' . $item['merch_id'] . '">
+          <i class="' . $wishlistClasses . '"></i>
           </button>';
     echo '<img src="' . htmlspecialchars($item['image_url']) . '" alt="' . htmlspecialchars($item['name']) . '" class="w-full h-48 object-cover rounded mb-4" onerror="this.src=\'./assets/img/placeholder.png\';">';
     echo '<a href="./product.php?id=' . $item['merch_id'] . '" class="block font-semibold mb-2 hover:text-blue-600 cursor-pointer transition-all">' . htmlspecialchars($item['name']) . '</a>';

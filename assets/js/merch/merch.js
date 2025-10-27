@@ -37,3 +37,38 @@ btnSorts.forEach(btn => {
         await loadMerch(merchContainer, sortBy);
     });
 });
+
+// Wishlist toggle
+document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.wishlist-btn');
+    if (!btn) return;
+    const btnIcon = btn.querySelector('i');
+
+    const merchId = btn.dataset.merchId;
+
+    try {
+        const formData = new FormData();
+        formData.append('merch_id', merchId);
+
+        const res = await fetch('./api/wishlist/toggle_wishlist.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await res.json();
+
+        if (data.status === 'success') {
+            if (data.action === 'added') {
+                btnIcon.classList.replace('fa-regular', 'fa-solid');
+                btnIcon.classList.add('text-red-500');
+                Toastify({ text: 'Added to wishlist ❤️', duration: 2000, position: 'center' }).showToast();
+            } else {
+                btnIcon.classList.replace('fa-solid', 'fa-regular');
+                btnIcon.classList.remove('text-red-500');
+                Toastify({ text: 'Removed from wishlist 💔', duration: 2000, position: 'center' }).showToast();
+            }
+        }
+    } catch (err) {
+        console.error('Wishlist toggle failed:', err);
+    }
+});
