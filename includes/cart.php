@@ -29,7 +29,7 @@ echo '
                                 
 echo '
                             </div>
-                            <button id="checkoutBtn" class="bg-green-500 hover:bg-green-700 cursor-pointer text-white rounded px-4 py-2 w-full mb-3 text-lg">Checkout</button>  
+                            <a href="./checkout.php" id="checkoutBtn" class="bg-green-500 hover:bg-green-700 cursor-pointer text-white rounded px-4 py-2 w-full mb-3 text-lg text-center">Checkout</a>  
                             <button id="closeCartModal" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 cursor-pointer rounded w-full text-lg" onclick="toggleCartModal()">Close</button>
                         </div>
                     </div>
