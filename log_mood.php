@@ -18,28 +18,34 @@ include './api/get_categories.php';
 <body>
     <?php include './includes/header.php'; ?>
 
-    <main class="max-w-5xl mt-24 flex flex-col gap-28 mx-auto px-4">
-        <div class="flex justify-between">
-            <div>
-                <h1 class="text-4xl font-bold mb-4">Log Your Mood</h1>
+    <main class="max-w-7xl mt-24 mx-auto px-4">
+        <div class="flex justify-between gap-24">
+            <div class="w-1/2">
+                <h1 class="text-5xl font-bold mb-6">Log Your Mood</h1>
                 <form id="moodCategoryForm" class="flex flex-col gap-4">
-                    <label for="mood" class="text-lg font-semibold">How was your mood today?</label>
-                    <?php foreach ($categories as $category): ?>
-                        <?php
+                    <label for="mood" class="text-3xl font-semibold mb-4">How was your mood today?</label>
+                    <div class="bg-neutral-100">
+                        <?php foreach ($categories as $category): ?>
+                            <?php
                             $id = htmlspecialchars($category['category_id']);
                             $name = htmlspecialchars($category['name']);
-
+                            $category_img = htmlspecialchars($category['image']);
+                            
                             echo '
-                            <div>
-                                <input type="radio" id="mood-' . $id . '" name="mood" value="' . $id . '" class="mr-2">
-                                <label for="mood-' . $id . '" class="mr-4">' . ucfirst($name) . '</label>
+                            <div class="flex items-center justify-between border-2 px-4 py-2 rounded-lg border-gray-300 hover:border-blue-600 font-semibold mb-6 transition-all">
+                                <div class="text-2xl">
+                                    <input type="radio" id="mood-' . $id . '" name="mood" value="' . $id . '" class="mr-2">
+                                    <label for="mood-' . $id . '" class="mr-4 cursor-pointer">' . ucfirst($name) . '</label>
+                                </div>
+                                <span class="text-3xl">'. $category_img .'</span>
                             </div>';
-                        ?>
+                            ?>
                     <?php endforeach; ?>
+                </div>
                 </form>
             </div>
 
-            <div>
+            <div class="w-1/2">
                 <form id="moodForm" class="flex flex-col gap-8">
                     <div class="flex flex-col">
                         <label for="moodIntensity" class="text-lg font-medium">Mood Intensity (1-10):</label>
