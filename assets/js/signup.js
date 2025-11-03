@@ -4,7 +4,7 @@ const errorDiv = document.getElementById('error');
 async function signupUser() {
     const formData = new FormData(signupForm);
 
-    const res = await fetch('../auth/signup.php', {
+    const res = await fetch('auth/signup.php', {
         method: 'POST',
         body: formData
     });
@@ -13,7 +13,7 @@ async function signupUser() {
     const data = await res.json();
 
     if (data.success) {
-        window.location.href = '../home.php';
+        window.location.href = 'home.php';
     } else {
         errorDiv.textContent = data.message;
     }

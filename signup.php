@@ -13,7 +13,7 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <script src="../assets/js/signup.js" defer></script>
+    <script src="./assets/js/signup.js" defer></script>
 </head>
 <body>
     <div class="container">
