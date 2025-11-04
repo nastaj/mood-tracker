@@ -1,3 +1,4 @@
+import showToast from "../toast";
 import loadMerch from "./loadMerch";
 
 const merchContainer = document.getElementById("merch-items");
@@ -61,11 +62,11 @@ document.addEventListener('click', async (e) => {
             if (data.action === 'added') {
                 btnIcon.classList.replace('fa-regular', 'fa-solid');
                 btnIcon.classList.add('text-red-500');
-                Toastify({ text: 'Added to wishlist ❤️', duration: 2000, position: 'center' }).showToast();
+                showToast('success', 'Added to wishlist ❤️');
             } else {
                 btnIcon.classList.replace('fa-solid', 'fa-regular');
                 btnIcon.classList.remove('text-red-500');
-                Toastify({ text: 'Removed from wishlist 💔', duration: 2000, position: 'center' }).showToast();
+                showToast('error', 'Removed from wishlist 💔');
             }
         }
     } catch (err) {

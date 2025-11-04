@@ -22,8 +22,8 @@ if(!empty($cart)) {
         echo '<a href="./product.php?id=' . $item['merch_id'] . '" class="font-semibold">' . htmlspecialchars($item['name']) . '</a>';
         echo '<p class="quantity">€' . number_format($item['price'], 2) . ' × ' . $item['quantity'] . '</p>';
         echo '</div>';
-        echo '<button class="text-red-500 underline remove-item" onclick="removeFromCart(' . $item['merch_id'] . ')">';
-        echo '<i class="fas fa-remove"></i>';
+        echo '<button class="remove-from-cart-btn text-red-500 underline remove-item cursor-pointer" data-id="' . $item['merch_id'] . '">';
+        echo '<i class="remove-from-cart-btn fas fa-remove" data-id="' . $item['merch_id'] . '"></i>';
         echo '</button>';
         echo '</div>';
     }

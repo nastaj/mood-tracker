@@ -81,8 +81,8 @@ while ($item = $result->fetch_assoc()) {
     echo '<p class="text-green-600 text-sm font-semibold">' . $availability . '</p>';
     echo '</div>';
     echo  '<div class="flex gap-4">';
-    echo '<button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer transition-all add-to-cart" onclick="addToCart(' . $item['merch_id'] . ')">Add to Cart</button>';
-    echo '<button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 hover:cursor-pointer transition-all" onclick="removeFromWishlist(' . $item['merch_id'] . ', event)">Remove from Wishlist</button>';
+    echo '<button class="add-to-cart-btn px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer transition-all add-to-cart" data-id="' . $item['merch_id'] . '">Add to Cart</button>';
+    echo '<button class="remove-wishlist-btn px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 hover:cursor-pointer transition-all" data-id="' . $item['merch_id'] . '">Remove from Wishlist</button>';
     echo  '</div>';
     echo '</article>';
 }

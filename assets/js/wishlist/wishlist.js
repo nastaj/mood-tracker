@@ -1,3 +1,5 @@
+import showToast from "../toast";
+
 async function removeFromWishlist(merchId, e) {
     const itemElement = e.target.closest('article');
 
@@ -13,7 +15,7 @@ async function removeFromWishlist(merchId, e) {
         const data = await res.json();
 
         if (data.status === 'success') {
-            Toastify({ text: 'Removed from wishlist 💔', duration: 2000, position: 'center' }).showToast();
+            showToast('success', '💔 Item removed from wishlist.');
 
             // Remove the item from the DOM
             itemElement.remove();
@@ -22,3 +24,10 @@ async function removeFromWishlist(merchId, e) {
         console.error('Wishlist toggle failed:', err);
     }
 }
+
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.remove-wishlist-btn')) {
+        const merchId = e.target.dataset.id;
+        removeFromWishlist(merchId, e);
+    }
+});

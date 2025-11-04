@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./assets/css/output.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-        <script src="./assets/js/wishlist/wishlist.js"></script>
+        <script type="module" src="./assets/js/wishlist/wishlist.js" defer></script>
         <title>Mood Tracker | Wishlist</title>
     </head>
     <body>

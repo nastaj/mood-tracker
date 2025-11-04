@@ -1,3 +1,5 @@
+import showToast from './toast.js';
+
 const moodForm = document.getElementById('moodForm');
 
 const moodBtns = document.querySelectorAll('input[name="mood"]');
@@ -47,12 +49,14 @@ async function logMood() {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            window.location.href = './home.php';
+            showToast("success", result.message);
+            setTimeout(() => {
+                window.location.href = './home.php';
+            }, 3000);
         } else {
-            alert(result.message || 'Failed to log mood.');
+            showToast("error", result.message);
         }
     } catch (error) {
-        console.error(error);
-        alert('Error logging mood. Please try again.');
+        showToast("error", error.message);
     }
 }

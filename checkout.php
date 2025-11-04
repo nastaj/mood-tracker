@@ -13,7 +13,7 @@ include './api/get_categories.php';
     <link href="./assets/css/output.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Mood Tracker | Checkout</title>
-    <script src="./assets/js/checkout.js" defer></script>
+    <script type="module" src="./assets/js/checkout.js" defer></script>
 </head>
 
 <body>

@@ -8,7 +8,8 @@
         <link href="./assets/css/output.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
         <title>Mood Tracker | Profile</title>
-        <script src="./assets/js/profile.js" defer></script>
+        <script src="./assets/js/logout.js" defer></script>
+        <script type="module" src="./assets/js/profile.js" defer></script>
     </head>
     <body>
         <!-- Header -->
@@ -64,9 +65,9 @@
 
                 <section id="settings" class="tab-content hidden mt-8">
                     <h2 class="text-xl font-semibold mb-4">Account Settings</h2>
-                    <button class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-all cursor-pointer">Change Password</button>
-                    <button class="ml-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-all cursor-pointer" onclick="toggleDeleteModal()">Delete Account</button>
-                    <button class="ml-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-all cursor-pointer" onclick="logout()">Logout</button>
+                    <button id="change-password-btn" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-all cursor-pointer">Change Password</button>
+                    <button id="delete-account-btn" class="ml-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-all cursor-pointer">Delete Account</button>
+                    <button id="logout-btn" class="ml-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-all cursor-pointer" onclick="logout()">Logout</button>
                 </section>
         </section>
     </main>
@@ -78,8 +79,8 @@
             <p class="mb-6">Confirm your password in order to delete your account. This action cannot be undone.</p>
             <input id="delete-account-password" type="password" placeholder="Enter your password" class="border border-gray-300 p-2 rounded mb-4" required>
             <div class="flex gap-4 justify-end">
-                <button id="cancelDelete" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded" onclick="toggleDeleteModal()">Cancel</button>
-                <button id="confirmDelete" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded" onclick="deleteAccount()">Delete</button>
+                <button id="cancelDelete" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Cancel</button>
+                <button id="confirmDelete" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded">Delete</button>
             </div>
         </div>
     </div>

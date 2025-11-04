@@ -2,6 +2,7 @@ import loadEntries from './loadEntries.js';
 import deleteEntry from './deleteEntry.js';
 import editEntry from './editEntry.js';
 import getMood from './getMood.js';
+import showToast from './toast.js';
 
 const editForm = document.getElementById('editMoodForm');
 const entriesContainer = document.getElementById('entries');
@@ -37,8 +38,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (success) {
                 entryToDelete.remove();
+                showToast("success", "Entry deleted successfully.");
             } else {
-                alert('Failed to delete the entry. Please try again.');
+                showToast("error", "Failed to delete the entry. Please try again.");
             }
         }
         deleteModal.classList.add('hidden');
@@ -79,13 +81,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (updatedMood.success) {
                     // Close the modal
                     editModal.classList.add('hidden');
+                    showToast("success", "Entry updated successfully.");
 
                     // Reload entries to reflect changes
                     await loadEntries(entriesContainer, sortBy);
                 }
             } catch (error) {
-                console.error('Error editing entry:', error);
-                alert('An error occurred while editing the entry. Please try again.');
+                showToast("error", "An error occurred while editing the entry. Please try again.");
             }
         }
     });

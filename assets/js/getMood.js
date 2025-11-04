@@ -5,6 +5,5 @@ export default async function getMood(entryId) {
         return data;
     } catch (error) {
         console.error('Error fetching mood entry:', error);
-        return { error: 'Failed to fetch mood entry' };
     }
 }

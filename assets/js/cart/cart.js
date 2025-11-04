@@ -1,3 +1,5 @@
+import showToast from "../toast";
+
 const cartItems = document.getElementById("cart-items");
 
 function updateCartCount(action, quantity = 1) {
@@ -18,31 +20,14 @@ async function addToCart(merchId, quantity = 1) {
         });
 
         updateCartCount('add', quantity);
-
-        Toastify({
-            text: `👍 Added ${quantity} item${quantity > 1 ? 's' : ''} to cart`,
-            duration: 2000,
-            gravity: "top",
-            position: "center",
-            style: {
-                background: "linear-gradient(to right, #00b09b, #96c93e)",
-            },
-        }).showToast();
+        showToast('success', `👍 Added ${quantity} item${quantity > 1 ? 's' : ''} to cart`);
 
         // Update cart modal content
         const res = await fetch('./api/cart/get_cart_items.php');
         const html = await res.text();
         cartItems.innerHTML = html;
     } catch (error) {
-        Toastify({
-            text: `❌ Failed to add item to cart: ${error.message}`,
-            duration: 2000,
-            gravity: "top",
-            position: "center",
-            style: {
-                background: "linear-gradient(to right, #ff5f5f, #ffcccb)",
-            },
-        }).showToast();
+        showToast('error', error.message);
     }
 }
 
@@ -64,14 +49,17 @@ async function removeFromCart(merchId) {
         const html = await res.text();
         cartItems.innerHTML = html;
     } catch (error) {
-        Toastify({
-            text: `❌ Failed to remove item from cart: ${error.message}`,
-            duration: 2000,
-            gravity: "top",
-            position: "center",
-            style: {
-                background: "linear-gradient(to right, #ff5f5f, #ffcccb)",
-            },
-        }).showToast();
+        showToast('error', error.message);
     }
 }
+
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.add-to-cart')) {
+        const merchId = e.target.dataset.id;
+        addToCart(merchId);
+    }
+    if (e.target.matches('.remove-from-cart-btn')) {
+        const merchId = e.target.dataset.id;
+        removeFromCart(merchId);
+    }
+});

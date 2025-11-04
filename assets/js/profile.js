@@ -1,3 +1,5 @@
+import showToast from './toast.js';
+
 const tabs = document.querySelectorAll(".tab-btn");
 const contents = document.querySelectorAll(".tab-content");
 
@@ -9,6 +11,7 @@ const address = document.getElementById('address');
 const paymentMethod = document.getElementById('payment-method');
 const paymentDetails = document.getElementById('payment-details');
 
+const deleteAccountBtn = document.getElementById('delete-account-btn');
 const deleteModal = document.getElementById('deleteModal');
 const confirmDeleteBtn = document.getElementById('confirmDelete');
 const cancelDeleteBtn = document.getElementById('cancelDelete');
@@ -57,34 +60,9 @@ paymentDetailsForm.addEventListener('submit', async function (e) {
 
         const data = await res.json();
 
-        if (data.success) {
-            Toastify({
-                text: data.message,
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "center",
-                backgroundColor: "#4CAF50",
-            }).showToast();
-        } else {
-            Toastify({
-                text: "Error saving payment details: " + data.message,
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "center",
-                backgroundColor: "#f44336",
-            }).showToast();
-        }
+        data.success ? showToast("success", data.message) : showToast("error", data.message);
     } catch (error) {
-        Toastify({
-            text: "Error processing payment details: " + error.message,
-            duration: 3000,
-            close: true,
-            gravity: "top",
-            position: "center",
-            backgroundColor: "#f44336",
-        }).showToast();
+        showToast("error", error.message);
     }
 });
 
@@ -96,18 +74,9 @@ async function deleteAccount() {
     const password = passwordInput.value;
     const formData = new FormData();
     formData.append('password', password);
-    console.log(password);
-
 
     if (!password) {
-        Toastify({
-            text: "Please enter your password to confirm.",
-            duration: 3000,
-            close: true,
-            gravity: "top",
-            position: "center",
-            backgroundColor: "#f44336",
-        }).showToast();
+        showToast("error", "Please enter your password to confirm.");
         return;
     }
 
@@ -120,37 +89,20 @@ async function deleteAccount() {
         const data = await res.json();
 
         if (data.success) {
-            Toastify({
-                text: data.message,
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "center",
-                backgroundColor: "#4CAF50",
-            }).showToast();
+            showToast("success", data.message);
 
             // Redirect after 3 seconds
             setTimeout(() => {
-                window.location.href = 'signup.php';
+                window.location.href = 'login.php';
             }, 3000);
         } else {
-            Toastify({
-                text: "Error deleting account: " + data.message,
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "center",
-                backgroundColor: "#f44336",
-            }).showToast();
+            showToast("error", data.message);
         }
     } catch (error) {
-        Toastify({
-            text: "Error processing account deletion: " + error.message,
-            duration: 3000,
-            close: true,
-            gravity: "top",
-            position: "center",
-            backgroundColor: "#f44336",
-        }).showToast();
+        showToast("error", "Error processing account deletion: " + error.message);
     }
 }
+
+deleteAccountBtn.addEventListener('click', toggleDeleteModal);
+cancelDeleteBtn.addEventListener('click', toggleDeleteModal);
+confirmDeleteBtn.addEventListener('click', deleteAccount);

@@ -2,7 +2,7 @@
 echo '
     <script src="https://kit.fontawesome.com/bf8d4f7ae9.js" crossorigin="anonymous"></script>
     <script src="./assets/js/nav.js" defer></script>
-    <script src="./assets/js/cart/cart.js" defer></script>
+    <script type="module" src="./assets/js/cart/cart.js" defer></script>
     <script src="./assets/js/logout.js" defer></script>
     <header class="p-6 border-b-2 border-gray-300">
         <nav class="flex justify-between items-center mx-16">

@@ -9,7 +9,9 @@ include './api/get_tags.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link href="./assets/css/output.css" rel="stylesheet">
+
     <title>Mood Tracker | Mood Entries</title>
     <script type="module" src="./assets/js/entries.js" defer></script>
 </head>
@@ -99,5 +101,7 @@ include './api/get_tags.php';
             </form>
         </div>
     </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>
