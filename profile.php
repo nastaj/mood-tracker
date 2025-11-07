@@ -23,10 +23,10 @@
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
                     <img src="./assets/img/placeholder.png" alt="Profile Picture" class="w-24 h-24 rounded-full object-cover border border-gray-300">
                     <div class="flex-1">
-                        <h2 class="text-xl font-semibold">John Doe</h2>
-                        <p class="text-gray-600">john@example.com</p>
+                        <h2 id="name-display" class="text-xl font-semibold">John Doe</h2>
+                        <p id="email-display" class="text-gray-600">john@example.com</p>
                         <p class="text-gray-500 text-sm mt-1">Member since: March 2024</p>
-                        <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all">Edit Profile</button>
+                        <button id="edit-profile-btn" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all">Edit Profile</button>
                     </div>
                 </div>
 
@@ -82,6 +82,38 @@
                 <button id="cancelDelete" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Cancel</button>
                 <button id="confirmDelete" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded">Delete</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="fixed hidden inset-0 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-4">
+            <h2 class="text-2xl font-bold mb-4">Change Password</h2>
+            <form id="change-password-form" class="flex flex-col">
+                <input id="current-password" type="password" placeholder="Current Password" name="current_password" class="border border-gray-300 p-2 rounded mb-4" required>
+                <input id="new-password" type="password" placeholder="New Password" name="new_password" class="border border-gray-300 p-2 rounded mb-4" required>
+                <input id="confirm-new-password" type="password" placeholder="Confirm New Password" name="confirm_password" class="border border-gray-300 p-2 rounded mb-4" required>
+                <div class="flex gap-4 justify-end">
+                    <button type="button" id="cancelChangePassword" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded cursor-pointer">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded cursor-pointer">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+     <div id="editProfileModal" class="hidden fixed inset-0 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-4">
+            <h2 class="text-2xl font-bold mb-4">Edit Profile</h2>
+            <form id="edit-profile-form" class="flex flex-col">
+                <input id="first-name" type="text" placeholder="First Name" name="first_name" class="border border-gray-300 p-2 rounded mb-4">
+                <input id="last-name" type="text" placeholder="Last Name" name="last_name" class="border border-gray-300 p-2 rounded mb-4">
+                <input id="email" type="email" placeholder="Email" name="email" class="border border-gray-300 p-2 rounded mb-4">
+                <div class="flex gap-4 justify-end">
+                    <button type="button" id="cancelEditProfile" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded cursor-pointer">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded cursor-pointer">Save Changes</button>
+                </div>
+            </form>
         </div>
     </div>
 

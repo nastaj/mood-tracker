@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email === '' || $password === '') {
         $response['message'] = 'Please fill in all fields.';
     } else {
-        $stmt = $conn->prepare('SELECT user_id, username, email, password_hash FROM users WHERE email = ? LIMIT 1');
+        $stmt = $conn->prepare('SELECT * FROM users WHERE email = ? LIMIT 1');
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -25,6 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
+                $_SESSION['first_name'] = $user['first_name'];
+                $_SESSION['last_name'] = $user['last_name'];
 
                 $response['success'] = true;
                 $response['message'] = 'Login successful.';

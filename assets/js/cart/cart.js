@@ -54,8 +54,8 @@ async function removeFromCart(merchId) {
 }
 
 document.addEventListener('click', (e) => {
-    if (e.target.matches('.add-to-cart')) {
-        const merchId = e.target.dataset.id;
+    if (e.target.matches('.btn-add-to-cart')) {
+        const merchId = e.target.dataset.merchId;
         addToCart(merchId);
     }
     if (e.target.matches('.remove-from-cart-btn')) {

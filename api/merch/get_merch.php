@@ -124,7 +124,7 @@ while ($item = $result->fetch_assoc()) {
     echo '<p class="text-gray-700 mb-2 font-semibold">€' . number_format($item['price'], 2) . '</p>';
     echo '<p class="text-green-600 text-sm font-semibold">' . $availability . '</p>';
     echo '</div>';
-    echo '<button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer transition-all add-to-cart" onclick="addToCart(' . $item['merch_id'] . ')">Add to Cart</button>';
+    echo '<button class="btn-add-to-cart px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer transition-all" data-merch-id="' . $item['merch_id'] . '">Add to Cart</button>';
     echo '</article>';
 }
 

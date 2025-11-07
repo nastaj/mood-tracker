@@ -10,7 +10,9 @@ if (!isset($_SESSION['user_id'])) {
     $user = [
         'user_id' => $_SESSION['user_id'],
         'username' => $_SESSION['username'],
-        'email' => $_SESSION['email']
+        'email' => $_SESSION['email'],
+        'first_name' => $_SESSION['first_name'],
+        'last_name' => $_SESSION['last_name']
     ];
     echo json_encode(['success' => true, 'user' => $user]);
 ?>
