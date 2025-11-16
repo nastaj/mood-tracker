@@ -7,6 +7,7 @@ const email = document.getElementById('email');
 const address = document.getElementById('address');
 const paymentMethod = document.getElementById('payment-method');
 const paymentDetails = document.getElementById('payment-details');
+const orderBtn = document.getElementById('order-btn');
 
 document.addEventListener('DOMContentLoaded', async function () {
     try {
@@ -45,3 +46,25 @@ paymentDetailsForm.addEventListener('submit', async function (e) {
         showToast("error", error.message);
     }
 });
+
+orderBtn.addEventListener('click', createOrder);
+
+async function createOrder() {
+    const res = await fetch('./api/orders/create_order.php', {
+        method: 'POST'
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+        showToast('success', data.message);
+
+        // Clear cart UI
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartCount = document.getElementById('cart-count');
+        cartCount.textContent = '0';
+        cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+    } else {
+        showToast('error', data.message);
+    }
+}

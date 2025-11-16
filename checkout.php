@@ -64,7 +64,7 @@ include './api/get_categories.php';
                     <!-- Order items will be displayed here -->
                     <?php include './api/checkout/get_order_summary.php'; ?>
                     
-                    <button type="button" class="mt-6 bg-green-500 text-white px-4 py-2 rounded w-full cursor-pointer">Order Now</button>
+                    <button id="order-btn" type="button" class="mt-6 bg-green-500 text-white px-4 py-2 rounded w-full cursor-pointer">Order Now</button>
                 </div>
             </section>
     </main>
