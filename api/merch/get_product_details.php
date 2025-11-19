@@ -79,20 +79,20 @@ while ($item = $result->fetch_assoc()) {
 
     echo '          <div class="flex flex-col lg:flex-row mb-12 lg:mb-0 lg:gap-6">';
     echo '              <div class="flex justify-between bg-neutral-gray-3 rounded-md px-5 py-3 mb-4 lg:basis-2/5 lg:mb-0">';
-    echo '                  <button type="button" class="cursor-pointer" onclick="changeQuantity(\'decrease\')">';
+    echo '                  <button id="btn-decrease-quantity" type="button" class="cursor-pointer">';
     echo '                      <i class="fa-minus fa-solid text-primary-orange"></i>';
     echo '                  </button>';
 
     echo '                  <span id="quantity" class="font-bold text-lg" data-quantity="0">0</span>';
 
-    echo '                  <button type="button" class="cursor-pointer" onclick="changeQuantity(\'increase\')">';
+    echo '                  <button id="btn-increase-quantity" type="button" class="cursor-pointer">';
     echo '                      <i class="fa-plus fa-solid text-primary-orange"></i>';
     echo '                  </button>';
     echo '              </div>';
 
     echo '              <button
                          type="button"
-                         id="btn-add-to-cart"
+                         id="add-to-cart-btn"
                          class="flex justify-center gap-4 items-center bg-primary-orange rounded-md px-5 py-3 lg:basis-3/5 hover:opacity-50 hover:drop-shadow-glow active:scale-95 transition-all cursor-pointer" data-merch-id="' . $item['merch_id'] . '">';
 
     echo '                    <svg width="22" height="20" xmlns="http://www.w3.org/2000/svg" class="inline-block">
