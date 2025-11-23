@@ -14,7 +14,7 @@ SELECT
     u.username
 FROM merch_ratings r
 JOIN users u ON r.user_id = u.user_id
-WHERE r.merch_id = ?
+WHERE r.merch_id = ?    
 ORDER BY r.created_at DESC
 ";
 

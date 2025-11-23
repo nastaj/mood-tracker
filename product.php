@@ -18,6 +18,34 @@
             <!-- Product Reviews will be dynamically loaded here -->
         </section>
 
+        <section class="lg:flex flex-col gap-6 items-center mb-12">
+            <form id="review-form" class="flex flex-col gap-4 w-1/2 bg-white p-6 rounded-xl shadow">
+                <label class="font-semibold text-lg">Your Rating</label>
+                <div id="star-rating" class="flex text-3xl gap-2 cursor-pointer select-none">
+                    <i data-value="1" class="user-rating far fa-star text-gray-300"></i>
+                    <i data-value="2" class="user-rating far fa-star text-gray-300"></i>
+                    <i data-value="3" class="user-rating far fa-star text-gray-300"></i>
+                    <i data-value="4" class="user-rating far fa-star text-gray-300"></i>
+                    <i data-value="5" class="user-rating far fa-star text-gray-300"></i>
+                </div>
+
+                <!-- Hidden input that stores rating -->
+                <input type="hidden" id="selected-rating" name="rating" value="0">
+
+                <label for="review" class="font-semibold text-lg">Your Review</label>
+                <textarea
+                    name="review"
+                    id="review"
+                    placeholder="Write your review here"
+                    class="border p-3 border-gray-300 rounded h-32"
+                ></textarea>
+
+                <button class="bg-blue-600 text-white px-4 py-2 rounded font-semibold cursor-pointer hover:bg-blue-700 transition-all" type="submit">
+                    Submit Review
+                </button>
+
+            </form>
+        </section>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     </body>
 </html>
