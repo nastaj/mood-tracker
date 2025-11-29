@@ -20,7 +20,7 @@ echo '
                     echo $cartCount;
                     echo '</span>
 
-                    <div id="cartModal" class="hidden absolute right-0 top-12 z-50">
+                    <div id="cartModal" class="hidden absolute right-0 top-12 z-50 animate-fade-in">
                         <div class="bg-white p-8 rounded-lg shadow-2xl flex flex-col items-center w-100">
                             <h2 class="text-xl font-semibold mb-6 border-b border-gray-400 pb-4 w-full text-center">Shopping Cart</h2>
                             <div id="cart-items" class="w-full mb-4">';

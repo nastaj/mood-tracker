@@ -1,14 +1,45 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-orange: hsl(26, 100%, 55%);
-  --color-primary-pale: hsl(25, 100%, 94%);
-  --color-neutral-dark: hsl(220, 13%, 13%);
-  --color-neutral-gray-1: hsl(219, 9%, 45%);
-  --color-neutral-gray-2: hsl(220, 14%, 75%);
-  --color-neutral-gray-3: hsl(223, 64%, 98%);
-  --color-white: hsl(0, 0%, 100%);
-  --color-black: hsl(0, 0%, 0%);
+  --font-sans: "Nunito", sans-serif;
 
-  --font-family-primary: "Kumbh Sans", sans-serif;
+  --color-primary: #4f46e5; /* indigo-600 */
+  --color-secondary: #6366f1; /* indigo-500 */
+
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+
+  --color-background: #f8fafc; /* slate-50 */
+  --color-card-bg: #ffffff;
+
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #64748b;
+}
+
+.menu-link {
+  display: block;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: center;
+  transition: 0.2s;
+}
+.menu-link:hover {
+  background: #e2e8f0;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.18s ease-out;
 }

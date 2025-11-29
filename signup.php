@@ -10,30 +10,48 @@ if (isset($_SESSION['user_id'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <script src="./assets/js/signup.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Mood Tracker</title>
+<link href="./assets/css/output.css" rel="stylesheet">
+<script src="./assets/js/signup.js" defer></script>
 </head>
-<body>
-    <div class="container">
-        <h2>Sign Up</h2>
-        <div id="error" class="error"></div>
+<body class="bg-background flex items-center justify-center min-h-screen font-sans">
 
-        <form id="signupForm">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+    <div class="bg-card-bg shadow-xl rounded-2xl w-full max-w-md p-8 flex flex-col items-center">
+        <h1 class="text-4xl font-bold text-primary mb-6">Create Your Account</h1>
+        <p class="text-text-secondary mb-6 text-center">Sign up to start tracking your moods and insights.</p>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+        <div id="error" class="w-full mb-4 text-red-500 text-center"></div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+        <form id="signupForm" class="w-full flex flex-col gap-4">
+            <div class="flex flex-col">
+                <label for="username" class="font-medium mb-1">Username</label>
+                <input type="text" id="username" name="username" required
+                    class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:outline-none transition">
+            </div>
 
-            <button type="button" onclick="signupUser()">Sign Up</button>
+            <div class="flex flex-col">
+                <label for="email" class="font-medium mb-1">Email</label>
+                <input type="email" id="email" name="email" required
+                    class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:outline-none transition">
+            </div>
+
+            <div class="flex flex-col">
+                <label for="password" class="font-medium mb-1">Password</label>
+                <input type="password" id="password" name="password" required
+                    class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:outline-none transition">
+            </div>
+
+            <button type="button" onclick="signupUser()"
+                class="mt-4 bg-primary hover:bg-secondary text-white font-semibold rounded-lg px-4 py-2 transition">Sign Up</button>
         </form>
 
-        <p>Already have an account? <a href="login.php">Log in here</a>.</p>
+        <p class="text-text-secondary mt-6 text-center">
+            Already have an account? 
+            <a href="login.php" class="text-primary font-semibold hover:underline">Log in here</a>.
+        </p>
     </div>
+
 </body>
 </html>
