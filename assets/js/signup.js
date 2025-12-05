@@ -1,5 +1,8 @@
 const signupForm = document.getElementById('signupForm');
-const errorDiv = document.getElementById('error');
+
+function clearErrors() {
+    document.querySelectorAll(".error-text").forEach(el => el.textContent = "");
+}
 
 async function signupUser() {
     const formData = new FormData(signupForm);
@@ -15,6 +18,15 @@ async function signupUser() {
     if (data.success) {
         window.location.href = 'home.php';
     } else {
-        errorDiv.textContent = data.message;
+        // Clear previous error messages
+        clearErrors();
+
+        // Display new error messages
+        for (const field in data.errors) {
+            const errorSpan = document.getElementById(`error-${field}`);
+            if (errorSpan) {
+                errorSpan.textContent = data.errors[field];
+            }
+        }
     }
 }

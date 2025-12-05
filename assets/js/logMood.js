@@ -2,6 +2,10 @@ import showToast from './toast.js';
 
 const moodForm = document.getElementById('moodForm');
 
+function clearErrors() {
+    document.querySelectorAll(".error-text").forEach(el => el.textContent = "");
+}
+
 const moodBtns = document.querySelectorAll('input[name="mood"]');
 moodBtns.forEach(btn => {
     btn.addEventListener('change', async () => {
@@ -54,7 +58,16 @@ async function logMood() {
                 window.location.href = './home.php';
             }, 3000);
         } else {
-            showToast("error", result.message);
+            // Clear previous error messages
+            clearErrors();
+
+            // Display new error messages
+            for (const field in result.errors) {
+                const errorSpan = document.getElementById(`error-${field}`);
+                if (errorSpan) {
+                    errorSpan.textContent = result.errors[field];
+                }
+            }
         }
     } catch (error) {
         showToast("error", error.message);

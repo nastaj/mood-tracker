@@ -53,7 +53,10 @@ include './api/get_categories.php';
 
                     <!-- Mood Intensity -->
                     <div class="flex flex-col">
-                        <label for="moodIntensity" class="text-lg font-medium">Mood Intensity (1-10)</label>
+                        <div class="flex justify-between">
+                            <label for="moodIntensity" class="text-lg font-medium">Mood Intensity (1-10)</label>
+                            <span class="text-red-500 text-error" id="error-moodIntensity"></span>
+                        </div>
                         <input type="range" id="moodIntensity" name="moodIntensity" min="1" max="10"
                             class="w-full mt-2">
                         <p class="text-sm text-text-secondary mt-1">How strong is the feeling?</p>
@@ -61,28 +64,40 @@ include './api/get_categories.php';
 
                     <!-- Sleep Hours -->
                     <div class="flex flex-col">
-                        <label for="sleepHours" class="text-lg font-medium">Hours of Sleep</label>
+                        <div class="flex justify-between">
+                            <label for="sleepHours" class="text-lg font-medium">Hours of Sleep</label>
+                            <span class="text-red-500 text-error" id="error-hoursSlept"></span>
+                        </div>
                         <input type="number" id="sleepHours" name="sleepHours" min="0" max="24"
                             class="w-full border border-gray-300 rounded px-3 py-2 mt-2" required>
                     </div>
 
                     <!-- Notes -->
                     <div class="flex flex-col">
-                        <label for="notes" class="text-lg font-medium">Notes</label>
+                        <div class="flex justify-between">
+                            <label for="notes" class="text-lg font-medium">Notes</label>
+                            <span class="text-red-500 text-error" id="error-notes"></span>
+                        </div>
                         <textarea id="notes" name="notes" rows="4"
                             class="w-full border border-gray-300 rounded px-3 py-2 mt-2" required></textarea>
                     </div>
 
                     <!-- Insights -->
                     <div class="flex flex-col">
-                        <label for="insight" class="text-lg font-medium">Insights</label>
+                        <div class="flex justify-between">
+                            <label for="insight" class="text-lg font-medium">Insights</label>
+                            <span class="text-red-500 text-error" id="error-insight"></span>
+                        </div>
                         <textarea id="insight" name="insight" rows="4"
                             class="w-full border border-gray-300 rounded px-3 py-2 mt-2" required></textarea>
                     </div>
 
                     <!-- Tag Selection -->
                     <div class="flex flex-col">
-                        <label for="tag" class="text-lg font-medium">Tag</label>
+                        <div class="flex justify-between">
+                            <label for="tag" class="text-lg font-medium">Tag</label>
+                            <span class="text-red-500 text-error" id="error-tag"></span>
+                        </div>
                         <select id="tag" name="tag"
                             class="w-full border border-gray-300 rounded px-3 py-2 mt-2">
                             <option value="">Select a tag</option>

@@ -1,70 +1,81 @@
 <?php
 session_start();
-header('Content-Type: application/json'); // JSON output
+header("Content-Type: application/json");
 
-$response = ['success' => false, 'message' => 'Unknown error'];
+require_once "../config/db_connect.php";
+require_once "../utils/validation.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Connect to the database
-    include '../config/db_connect.php';
+// Retrieve & sanitize
+$username = sanitize($_POST["username"] ?? "");
+$email    = sanitize($_POST["email"] ?? "");
+$password = $_POST["password"] ?? "";
 
-    // Retrieve and trim user input
-    $username = trim($_POST['username'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
+// Validation collection (field-specific)
+$errors = [];
 
-    // Validate input fields
-    if ($username === '' || $email === '' || $password === '') {
-        $response['message'] = 'Please fill in all fields.';
-    } else {
-        // Prepare a statement to check for duplicate emails
-        $chk = $conn->prepare('SELECT user_id FROM users WHERE email = ? LIMIT 1');
-        $chk->bind_param('s', $email);
-        $chk->execute();
-        $r = $chk->get_result();
+// Required fields
+if ($msg = validateRequired($username, "Username")) $errors["username"] = $msg;
+if ($msg = validateRequired($email, "Email")) $errors["email"] = $msg;
+if ($msg = validateRequired($password, "Password")) $errors["password"] = $msg;
 
-        // Check if the email is already registered
-        if ($r && $r->num_rows > 0) {
-            $response['message'] = 'Email already registered.';
-            $chk->close();
-            $conn->close();
-        } else {
-            $chk->close();
-
-            // Hash the password
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-            // Prepare an insert statement for new user registration
-            $ins = $conn->prepare('INSERT INTO users (username, password_hash, email, created_at) VALUES (?, ?, ?, NOW())');
-            $ins->bind_param('sss', $username, $passwordHash, $email);
-
-            // Execute the insert statement
-            if ($ins->execute()) {
-                // Get the newly created user ID
-                $user_id = $ins->insert_id;
-
-                // Set session variables for the logged-in user
-                $_SESSION['user_id']  = $user_id;
-                $_SESSION['username'] = $username;
-                $_SESSION['email']    = $email;
-
-                $ins->close();
-                $conn->close();
-
-                // Respond with success
-                $response['success'] = true;
-                echo json_encode($response);
-                exit();
-            } else {
-                $response['message'] = 'Registration failed: ' . $ins->error;
-                $ins->close();
-                $conn->close();
-            }
-        }
-    }
+// Stop further validation if required fields missing
+if (!empty($errors)) {
+    echo json_encode(["success" => false, "errors" => $errors]);
+    exit;
 }
 
-echo json_encode($response);
-exit();
-?>
+// Field-specific validation
+if ($msg = validateEmail($email)) $errors["email"] = $msg;
+if ($msg = validateMinLength($password, 6, "Password")) $errors["password"] = $msg;
+if ($msg = validateMaxLength($username, 32, "Username")) $errors["username"] = $msg;
 
+if (!empty($errors)) {
+    echo json_encode(["success" => false, "errors" => $errors]);
+    exit;
+}
+
+// Email uniqueness
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE email=? LIMIT 1");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+    echo json_encode([
+        "success" => false,
+        "errors" => ["email" => "Email already exists."]
+    ]);
+    exit;
+}
+
+$stmt->close();
+
+// Insert new user
+$hashed = password_hash($password, PASSWORD_DEFAULT);
+
+$stmt = $conn->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $username, $email, $hashed);
+
+if ($stmt->execute()) {
+
+    // Retrieve inserted user ID
+    $user_id = $conn->insert_id;
+
+    // Start session for new user
+    $_SESSION["user_id"]  = $user_id;
+    $_SESSION["username"] = $username;
+    $_SESSION["email"]    = $email;
+    $_SESSION["first_name"] = '';
+    $_SESSION["last_name"] = '';
+
+    echo json_encode(["success" => true]);
+
+} else {
+    echo json_encode([
+        "success" => false,
+        "errors" => ["general" => "Database error."]
+    ]);
+}
+
+$stmt->close();
+$conn->close();
