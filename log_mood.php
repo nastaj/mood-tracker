@@ -11,6 +11,7 @@ include './api/get_categories.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./assets/css/output.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Mood Tracker | Log Mood</title>
     <script type="module" src="./assets/js/logMood.js" defer></script>
 </head>
@@ -37,7 +38,7 @@ include './api/get_categories.php';
                         echo '
                         <div class="flex items-center justify-between border-2 px-4 py-3 rounded-xl border-gray-300 hover:border-primary transition-all mb-4 cursor-pointer">
                             <div class="flex items-center gap-2">
-                                <input type="radio" id="mood-' . $id . '" name="mood" value="' . $id . '" class="cursor-pointer">
+                                <input type="radio" id="mood-' . $id . '" name="mood" value="' . $id . '" class="cursor-pointer" ' . ($name == 'Neutral' ? 'checked' : '') . '>
                                 <label for="mood-' . $id . '" class="font-semibold text-lg cursor-pointer">' . ucfirst($name) . '</label>
                             </div>
                             <span class="text-3xl">' . $category_img . '</span>
@@ -112,12 +113,12 @@ include './api/get_categories.php';
                         class="mt-4 bg-primary hover:bg-secondary text-white font-semibold rounded-lg px-6 py-3 shadow-md transition">
                         Log Mood
                     </button>
-
                 </form>
             </div>
         </div>
-
     </main>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 
 </html>
