@@ -30,6 +30,10 @@ const editProfileModal = document.getElementById('editProfileModal');
 const cancelEditProfileBtn = document.getElementById('cancelEditProfile');
 const editProfileForm = document.getElementById('edit-profile-form');
 
+function clearErrors() {
+    document.querySelectorAll(".error-text").forEach(el => el.textContent = "");
+}
+
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
         tabs.forEach(t => t.classList.remove("active", "text-blue-600", "border-b-2", "border-blue-600"));
@@ -193,7 +197,15 @@ editProfileForm.addEventListener('submit', async function (e) {
                 emailDisplay.textContent = data.email;
             }
         } else {
-            showToast("error", data.message);
+            // Clear previous error messages
+            clearErrors();
+            // Display new error messages
+            for (const field in data.errors) {
+                const errorSpan = document.getElementById(`error-${field}`);
+                if (errorSpan) {
+                    errorSpan.textContent = data.errors[field];
+                }
+            }
         }
     } catch (error) {
         showToast("error", error.message);

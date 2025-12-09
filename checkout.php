@@ -26,20 +26,28 @@ include './api/get_categories.php';
                     <div class="flex gap-12 mb-4">
                         <div class="flex flex-col">
                             <label for="first-name">First Name</label>
-                            <input class="border border-gray-300 rounded py-1 px-2" type="text" id="first-name" name="first_name" placeholder="John" required>
+                            <input class="border border-gray-300 rounded py-1 px-2" type="text" id="first-name" name="first_name" placeholder="John">
+                            <span class="text-red-500 error-text" id="error-first-name"></span>
                         </div>
                         <div class="flex flex-col">
                             <label for="last-name">Last Name</label>
-                            <input class="border border-gray-300 rounded py-1 px-2" type="text" id="last-name" name="last_name" placeholder="Doe" required>
+                            <input class="border border-gray-300 rounded py-1 px-2" type="text" id="last-name" name="last_name" placeholder="Doe">
+                            <span class="text-red-500 error-text" id="error-last-name"></span>
                         </div>
                     </div>
                     <div class="flex flex-col mb-4">
-                        <label for="email">Email</label>
-                        <input class="border border-gray-300 rounded py-1 px-2" type="email" id="email" name="email" placeholder="john.doe@gmail.com" required>
+                        <div class="flex justify-between">
+                            <label for="email">Email</label>
+                            <span class="text-red-500 error-text" id="error-email"></span>
+                        </div>
+                        <input class="border border-gray-300 rounded py-1 px-2" type="email" id="email" name="email" placeholder="john.doe@gmail.com">
                     </div>
                     <div class="flex flex-col mb-4">
-                        <label for="payment-method">Payment Method</label>
-                        <select class="border border-gray-300 p-2" name="payment_method" id="payment-method" required>
+                        <div class="flex justify-between">
+                            <label for="payment-method">Payment Method</label>
+                            <span class="text-red-500 error-text" id="error-payment-method"></span>
+                        </div>
+                        <select class="border border-gray-300 p-2" name="payment_method" id="payment-method">
                             <option value="">Select Payment Method</option>
                             <option value="credit-card">Credit Card</option>
                             <option value="paypal">PayPal</option>
@@ -47,12 +55,18 @@ include './api/get_categories.php';
                         </select>
                     </div>
                     <div class="flex flex-col mb-4">
-                        <label for="payment-details">Payment Details</label>
-                        <input class="border border-gray-300 rounded py-1 px-2" type="text" id="payment-details" name="payment_details" placeholder="**** **** **** ****" required>
+                        <div class="flex justify-between">
+                            <label for="payment-details">Payment Details</label>
+                            <span class="text-red-500 error-text" id="error-payment-details"></span>
+                        </div>
+                        <input class="border border-gray-300 rounded py-1 px-2" type="text" id="payment-details" name="payment_details" placeholder="**** **** **** ****">
                     </div>
                     <div class="flex flex-col mb-4">
-                        <label for="address">Address</label>
-                        <input class="border border-gray-300 rounded py-1 px-2" type="text" id="address" name="address" placeholder="123 Main St, City, Country" required>
+                        <div class="flex justify-between">
+                            <label for="address">Address</label>
+                            <span class="text-red-500 error-text" id="error-address"></span>
+                        </div>
+                        <input class="border border-gray-300 rounded py-1 px-2" type="text" id="address" name="address" placeholder="123 Main St, City, Country">
                     </div>
                     <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">Save Details</button>
                 </form>

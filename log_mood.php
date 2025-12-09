@@ -20,11 +20,9 @@ include './api/get_categories.php';
     <?php include './includes/header.php'; ?>
 
     <main class="max-w-7xl mt-24 mx-auto px-4 flex flex-col gap-12">
-
         <h1 class="text-5xl font-bold text-center text-primary mb-8">Log Your Mood</h1>
 
         <div class="flex flex-col lg:flex-row gap-12">
-
             <!-- Mood Categories -->
             <div class="lg:w-1/2 bg-card-bg rounded-xl p-8 shadow-md hover:shadow-xl transition">
                 <h2 class="text-3xl font-semibold mb-6">How was your mood today?</h2>

@@ -61,6 +61,12 @@ if ($stmt->execute()) {
     // Retrieve inserted user ID
     $user_id = $conn->insert_id;
 
+    // Insert new customer details record
+    $cust_stmt = $conn->prepare("INSERT INTO customer_details (user_id) VALUES (?)");
+    $cust_stmt->bind_param("i", $user_id);
+    $cust_stmt->execute();
+    $cust_stmt->close();
+
     // Start session for new user
     $_SESSION["user_id"]  = $user_id;
     $_SESSION["username"] = $username;

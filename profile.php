@@ -107,8 +107,11 @@
             <h2 class="text-2xl font-bold mb-4">Edit Profile</h2>
             <form id="edit-profile-form" class="flex flex-col">
                 <input id="first-name" type="text" placeholder="First Name" name="first_name" class="border border-gray-300 p-2 rounded mb-4">
+                <p class="text-red-500 text-error" id="error-first-name"></p>
                 <input id="last-name" type="text" placeholder="Last Name" name="last_name" class="border border-gray-300 p-2 rounded mb-4">
+                <p class="text-red-500 text-error" id="error-last-name"></p>
                 <input id="email" type="email" placeholder="Email" name="email" class="border border-gray-300 p-2 rounded mb-4">
+                <p class="text-red-500 text-error" id="error-email"></p>
                 <div class="flex gap-4 justify-end">
                     <button type="button" id="cancelEditProfile" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded cursor-pointer">Cancel</button>
                     <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded cursor-pointer">Save Changes</button>

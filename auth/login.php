@@ -35,12 +35,27 @@ if ($result && $result->num_rows === 1) {
     $user = $result->fetch_assoc();
 
     if (password_verify($password, $user['password_hash'])) {
+        // Retrieve customer details
+        $cust_stmt = $conn->prepare('SELECT first_name, last_name FROM customer_details WHERE user_id = ? LIMIT 1');
+        $cust_stmt->bind_param('i', $user['user_id']);
+        $cust_stmt->execute();
+        $cust_result = $cust_stmt->get_result();
+
+        if ($cust_result && $cust_result->num_rows === 1) {
+            $cust_details = $cust_result->fetch_assoc();
+            // Set first and last name in session
+            $_SESSION['first_name'] = $cust_details['first_name'];
+            $_SESSION['last_name'] = $cust_details['last_name'];
+        } else {
+            $_SESSION['first_name'] = '';
+            $_SESSION['last_name'] = '';
+        }
+        $cust_stmt->close();
+
         // Set session variables
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['email'] = $user['email'];
-        $_SESSION['first_name'] = $user['first_name'];
-        $_SESSION['last_name'] = $user['last_name'];
 
         echo json_encode(['success' => true]);
     } else {
