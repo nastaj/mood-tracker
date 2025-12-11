@@ -27,18 +27,27 @@ include './api/merch/get_categories.php';
                             <input type="number" id="pricing-to" name="pricing-to" min="0" max="1000" step="1" class="ml-2 border border-gray-300 rounded px-2 py-1">
                         </div>
                     </div>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col mb-8">
                         <label for="category" class="font-semibold mb-3 text-xl">Category</label>
-                        <div class="mb-2">
-                            <input type="radio" id="category-all" name="category" value="" checked>
-                            <label for="category-all">All</label>
-                        </div>
                         <?php foreach ($categories as $category): ?>
                             <div class="mb-2">
-                                <input type="radio" id="category-<?php echo $category['category_id']; ?>" name="category" value="<?php echo $category['category_id']; ?>">
+                                <input type="checkbox" id="category-<?php echo $category['category_id']; ?>" name="category" value="<?php echo $category['category_id']; ?>">
                                 <label for="category-<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></label>
                             </div>
                         <?php endforeach; ?>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="availability" class="font-semibold mb-3 text-xl">Availability</label>
+                        <div class="flex flex-col">
+                            <div class="flex items-center">
+                                <input type="radio" id="availability-in-stock" name="availability" value="in-stock" class="mr-2 border border-gray-300 rounded px-2 py-1" checked>
+                                <label for="availability-in-stock">In stock</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="availability-out-of-stock" name="availability" value="out-of-stock" class="mr-2 border border-gray-300 rounded px-2 py-1">
+                                <label for="availability-out-of-stock" class="mr-4">Out of stock</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </aside>

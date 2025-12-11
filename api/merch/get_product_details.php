@@ -58,8 +58,11 @@ while ($item = $result->fetch_assoc()) {
     echo '          <h1 class="text-3xl lg:text-4xl font-bold text-black leading-none mb-6 lg:mb-8">';
     echo '              ' . htmlspecialchars($item['name']) . '';
     echo '          </h1>';
-    echo '<p class="text-green-600 text-sm font-semibold">' . $availability . '</p>';
-
+    if ($item['stock_quantity'] > 0) {
+        echo '<p class="text-green-600 text-sm font-semibold">' . $availability . '</p>';
+    } else {
+        echo '<p class="text-red-600 text-sm font-semibold">' . $availability . '</p>';
+    }
     echo '          <p class="text-neutral-gray-1 mb-6 lg:mb-8">';
     echo '              ' . htmlspecialchars($item['description']) . '';
     echo '          </p>';
@@ -76,7 +79,7 @@ while ($item = $result->fetch_assoc()) {
     echo '                  $250.00';
     echo '              </span> -->';
     echo '          </section>';
-
+    if ($item['stock_quantity'] > 0) {
     echo '          <div class="flex flex-col lg:flex-row mb-12 lg:mb-0 lg:gap-6">';
     echo '              <div class="flex justify-between bg-neutral-gray-3 rounded-md px-5 py-3 mb-4 lg:basis-2/5 lg:mb-0">';
     echo '                  <button id="btn-decrease-quantity" type="button" class="cursor-pointer">';
@@ -93,7 +96,7 @@ while ($item = $result->fetch_assoc()) {
     echo '              <button
                          type="button"
                          id="add-to-cart-btn"
-                         class="flex justify-center gap-4 items-center bg-primary-orange rounded-md px-5 py-3 lg:basis-3/5 hover:opacity-50 hover:drop-shadow-glow active:scale-95 transition-all cursor-pointer" data-merch-id="' . $item['merch_id'] . '">';
+                         class="flex justify-center gap-4 items-center bg-primary rounded-md px-5 py-3 lg:basis-3/5 hover:opacity-50 hover:drop-shadow-glow active:scale-95 transition-all cursor-pointer" data-merch-id="' . $item['merch_id'] . '">';
 
     echo '                    <svg width="22" height="20" xmlns="http://www.w3.org/2000/svg" class="inline-block">
                             <path
@@ -103,9 +106,10 @@ while ($item = $result->fetch_assoc()) {
                             />
                         </svg>';
 
-    echo '                    <span class="text-white text-md font-bold">Add to cart</span>';
+    echo '                    <span class="text-md text-white font-bold">Add to cart</span>';
     echo '                </button>';
     echo '            </div>';
+    }
     echo '        </article>';
 }
 

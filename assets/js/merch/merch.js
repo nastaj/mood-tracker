@@ -3,6 +3,7 @@ import loadMerch from "./loadMerch";
 
 const merchContainer = document.getElementById("merch-items");
 const categories = document.querySelectorAll('input[name="category"]');
+const availability = document.querySelectorAll('input[name="availability"]');
 const btnSorts = document.querySelectorAll('.btn-sort');
 
 let sortBy = 'most-recent';
@@ -27,6 +28,13 @@ const filterInputs = [
 
 filterInputs.forEach(input => {
     input.addEventListener("input", async () => {
+        await loadMerch(merchContainer);
+    });
+});
+
+// Dynamically update entries on availability change
+availability.forEach(option => {
+    option.addEventListener('change', async () => {
         await loadMerch(merchContainer);
     });
 });

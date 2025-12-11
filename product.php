@@ -40,7 +40,7 @@
                     class="border p-3 border-gray-300 rounded h-32"
                 ></textarea>
 
-                <button class="bg-blue-600 text-white px-4 py-2 rounded font-semibold cursor-pointer hover:bg-blue-700 transition-all" type="submit">
+                <button class="bg-primary text-white px-4 py-2 rounded font-semibold cursor-pointer hover:opacity-50 hover:drop-shadow-glow active:scale-95 transition-all" type="submit">
                     Submit Review
                 </button>
 

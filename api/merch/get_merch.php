@@ -4,9 +4,12 @@ require_once '../../config/db_connect.php';
 // Get filters from request
 $price_from = $_GET['price_from'] ?? null;
 $price_to = $_GET['price_to'] ?? null;
-$category_id = $_GET['category_id'] ?? null;
 $sort_by = $_GET['sort_by'] ?? 'most-recent'; // most-recent, available, price-ascending, price-descending, rating
 $search_string = $_GET['search'] ?? null;
+$availability = $_GET['availability'] ?? null; // in-stock, out-of-stock
+
+$category_id = $_GET['category_id'] ?? '';
+$category_ids = array_filter(array_map('intval', explode(',', $category_id)));
 
 // Build WHERE clause
 $where = [];
@@ -25,11 +28,13 @@ if (!empty($price_to)) {
     $types .= "d";
 }
 
-// Category filter
-if (!empty($category_id)) {
-    $where[] = "m.category_id = ?";
-    $params[] = $category_id;
-    $types .= "i";
+if (!empty($category_ids)) {
+    $placeholders = implode(',', array_fill(0, count($category_ids), '?'));
+    $where[] = "m.category_id IN ($placeholders)";
+    foreach ($category_ids as $cid) {
+        $params[] = $cid;
+        $types .= 'i';
+    }
 }
 
 // Search filter
@@ -37,6 +42,15 @@ if (!empty($search_string)) {
     $where[] = "m.name LIKE ?";
     $params[] = "%$search_string%";
     $types .= "s";
+}
+
+// Availability filter
+if (!empty($availability)) {
+    if ($availability === 'in-stock') {
+        $where[] = "m.stock_quantity > 0";
+    } elseif ($availability === 'out-of-stock') {
+        $where[] = "m.stock_quantity = 0";
+    }
 }
 
 $where_clause = $where ? "WHERE " . implode(" AND ", $where) : "";
@@ -122,9 +136,15 @@ while ($item = $result->fetch_assoc()) {
 
     echo '<div class="flex justify-between mb-4">';
     echo '<p class="text-gray-700 mb-2 font-semibold">€' . number_format($item['price'], 2) . '</p>';
-    echo '<p class="text-green-600 text-sm font-semibold">' . $availability . '</p>';
+    if ($item['stock_quantity'] > 0) {
+        echo '<p class="text-green-600 text-sm font-semibold">' . $availability . '</p>';
+    } else {
+        echo '<p class="text-red-600 text-sm font-semibold">' . $availability . '</p>';
+    }
     echo '</div>';
-    echo '<button class="btn-add-to-cart px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer transition-all" data-merch-id="' . $item['merch_id'] . '">Add to Cart</button>';
+    if ($item['stock_quantity'] > 0) {
+        echo '<button class="btn-add-to-cart px-4 py-2 bg-primary text-white rounded cursor-pointer hover:opacity-50 hover:drop-shadow-glow active:scale-95 transition-all" data-merch-id="' . $item['merch_id'] . '">Add to Cart</button>';
+    }
     echo '</article>';
 }
 

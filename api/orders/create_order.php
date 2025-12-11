@@ -53,6 +53,25 @@ foreach ($_SESSION['cart'] as $item) {
     }
 }
 
+// Update stock quantities
+$update_stmt = $conn->prepare("
+    UPDATE merch
+    SET stock_quantity = stock_quantity - ?
+    WHERE merch_id = ?
+");
+
+$update_stmt->bind_param("ii", $quantity, $merch_id);
+
+foreach ($_SESSION['cart'] as $item) {
+    $merch_id   = (int)$item['merch_id'];
+    $quantity   = (int)$item['quantity'];
+
+    if (!$update_stmt->execute()) {
+        echo json_encode(['success' => false, 'message' => 'Error updating stock']);
+        exit;
+    }
+}
+
 // Clear cart after order creation
 unset($_SESSION['cart']);
 
